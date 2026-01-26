@@ -16,7 +16,7 @@ function renderChatArea() {
                 <div class="action-buttons-row">
                     <button class="action-btn" onclick="showUnifiedModal('preset')" title="Select Preset">
                         <span style="font-size: 20px;" id="presetIcon">📊</span>
-                        <span id="currentPreset">Data Analyst</span>
+                        <span id="currentPreset">Click to Select</span>
                     </button>
                     
                     <button class="action-btn upload-action-btn" onclick="document.getElementById('fileInput').click()" title="Upload Files">

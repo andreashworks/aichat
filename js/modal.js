@@ -410,12 +410,13 @@ function selectPresetItem(category, id) {
         else if (category === 'Task Framing') selectedTaskFraming = null;
         else if (category === 'Context Hooks') selectedContextHooks = null;
         
-        localStorage.removeItem('currentLoadedPresetId');
+        // ✅ JANGAN HAPUS currentLoadedPresetId - biarkan preset tetap ter-load
+        // localStorage.removeItem('currentLoadedPresetId');
         
         renderAllColumns();
         updatePresetPreview();
         renderSavedPresets();
-        updateCurrentPreset(); // ✅ Update button di chat area
+        updatePresetButtonDisplay(); // ✅ Update button di chat area
         return;
     }
     
@@ -432,12 +433,13 @@ function selectPresetItem(category, id) {
     else if (category === 'Task Framing') selectedTaskFraming = item;
     else if (category === 'Context Hooks') selectedContextHooks = item;
     
-    localStorage.removeItem('currentLoadedPresetId');
+    // ✅ JANGAN HAPUS currentLoadedPresetId - biarkan preset tetap ter-load
+    // localStorage.removeItem('currentLoadedPresetId');
     
     renderAllColumns();
     updatePresetPreview();
     renderSavedPresets();
-    updateCurrentPreset(); // ✅ Update button di chat area
+    updatePresetButtonDisplay(); // ✅ Update button di chat area
 }
 
 function updatePresetPreview() {

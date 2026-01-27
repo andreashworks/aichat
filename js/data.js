@@ -24,7 +24,7 @@ const defaultPresets = [
     // ========== 4. CONSTRAINTS ==========
     { id: 'const_facts', name: 'Facts Only', icon: '🚫', description: 'No speculation', systemPrompt: 'CONSTRAINT: Never speculate. Only state what is directly supported by evidence.', isDefault: true, category: 'Constraints' },
     { id: 'const_cite', name: 'Cite Sources', icon: '📚', description: 'Require citations', systemPrompt: 'CONSTRAINT: Every claim must cite sources using [Source: ...] notation.', isDefault: true, category: 'Constraints' },
-    { id: 'const_brief', name: 'Word Limit', icon: '📝', description: 'Max 200 words', systemPrompt: 'CONSTRAINT: Keep responses under 200 words. Be ruthlessly concise.', isDefault: true, category: 'Constraints' },
+    { id: 'const_brief', name: 'Word Limit', icon: '📏', description: 'Max 200 words', systemPrompt: 'CONSTRAINT: Keep responses under 200 words. Be ruthlessly concise.', isDefault: true, category: 'Constraints' },
     { id: 'const_simple', name: 'No Jargon', icon: '👶', description: 'Beginner-friendly', systemPrompt: 'CONSTRAINT: Avoid jargon. Explain technical terms in plain language.', isDefault: true, category: 'Constraints' },
     { id: 'const_neutral', name: 'Neutral', icon: '⚖️', description: 'No bias', systemPrompt: 'CONSTRAINT: Maintain strict neutrality. Present multiple perspectives fairly.', isDefault: true, category: 'Constraints' },
     
@@ -58,7 +58,7 @@ const models = [
     { id: 'mistral', name: 'Mistral Large', provider: 'Mistral AI', icon: '🔴' }
 ];
 
-const emojis = ['📊', '🔬', '✏️', '🔍', '💼', '⚖️', '🎯', '💡', '📈', '📉', '📝', '🔎', '📋', '📌', '📄', '🎨', '🧪', '🧬', '🎓', '📚'];
+const emojis = ['📊', '🔬', '✏️', '📝', '💼', '⚖️', '🎯', '💡', '📈', '📉', '📍', '🔎', '📋', '📌', '📄', '🎨', '🧪', '🧬', '🎓', '📚'];
 const categories = ['Identity', 'Expertise', 'Personality', 'Constraints', 'Output Format', 'Task Framing', 'Context Hooks', 'Custom'];
 
 // ✅ CRITICAL FIX: Initialize global variables properly
@@ -141,15 +141,23 @@ function updateCurrentPreset() {
         }
     }
     
-    // If no saved preset loaded, check if any components selected
+    // If no saved preset loaded, build name from selected components
     const hasSelection = selectedIdentity || selectedExpertise || selectedPersonality || 
                         selectedConstraints || selectedOutputFormat || selectedTaskFraming || 
                         selectedContextHooks || window.selectedCustomPrompts?.length > 0;
     
     if (hasSelection) {
-        presetEl.textContent = 'Custom Configuration';
-        iconEl.textContent = '🔧';
-        console.log('✅ Display updated: Custom Configuration');
+        // Build name from selected components
+        const components = [];
+        if (selectedIdentity) components.push(selectedIdentity.name);
+        if (selectedExpertise) components.push(selectedExpertise.name);
+        if (selectedPersonality) components.push(selectedPersonality.name);
+        
+        const customName = components.length > 0 ? components.join(' + ') : 'Custom Agent';
+        
+        presetEl.textContent = customName;
+        iconEl.textContent = selectedIdentity?.icon || '🔧';
+        console.log('✅ Display updated: Custom Configuration -', customName);
     } else {
         presetEl.textContent = 'Click to Select';
         iconEl.textContent = '💬';

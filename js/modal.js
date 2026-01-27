@@ -12,15 +12,15 @@ function renderUnifiedModal() {
                 </div>
                 
                 <div class="unified-modal-content">
-                    <!-- 3 COLUMN LAYOUT -->
-                    <div class="three-column-layout">
+                    <!-- 4 COLUMN LAYOUT WITH ACCORDIONS -->
+                    <div class="four-column-layout">
                         
-                        <!-- LEFT: SAVED PRESETS -->
+                        <!-- COLUMN 1: SAVED PRESETS -->
                         <div class="saved-presets-column">
                             <div class="column-header">
                                 <span><i class="fas fa-bookmark"></i> SAVED PRESETS</span>
                                 <div class="column-header-right">
-                                    <button class="column-info-btn" onclick="showColumnInfo('saved')">...</button>
+                                    <button class="column-info-btn" onclick="showColumnInfo('saved')"><i class="fas fa-question-circle"></i></button>
                                     <button class="add-new-btn-header" onclick="showAddNewPresetDialog()" title="Add New Preset">
                                         <i class="fas fa-plus"></i>
                                     </button>
@@ -41,122 +41,177 @@ function renderUnifiedModal() {
                             </div>
                         </div>
                         
-                        <!-- MIDDLE: AGENT BUILDER -->
-                        <div class="agent-builder-column">
+                        <!-- COLUMN 2: ACCORDION GROUP 1 (Identity, Expertise, Personality, Constraints) -->
+                        <div class="accordion-column" id="accordionGroup1">
                             
-                            <!-- ROW 1: Identity, Expertise, Personality, Constraints -->
-                            <div class="builder-row">
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-user-tie"></i> Identity</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('identity')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Identity')" title="Add Identity">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
+                            <!-- Identity -->
+                            <div class="accordion-item active" data-accordion="identity">
+                                <div class="accordion-header" onclick="toggleAccordion('identity', 'group1')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-user-tie accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Identity</span>
                                     </div>
-                                    <div class="column-content" id="identityColumn"></div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('identity')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Identity')" title="Add Identity">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
                                 </div>
-                                
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-brain"></i> Expertise</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('expertise')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Expertise')" title="Add Expertise">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="column-content" id="expertiseColumn"></div>
-                                </div>
-                                
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-comments"></i> Personality</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('personality')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Personality')" title="Add Personality">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="column-content" id="personalityColumn"></div>
-                                </div>
-                                
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-ban"></i> Constraints</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('constraints')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Constraints')" title="Add Constraint">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="column-content" id="constraintsColumn"></div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="identityColumn"></div>
                                 </div>
                             </div>
                             
-                            <!-- ROW 2: Output, Approach, Context, Custom -->
-                            <div class="builder-row">
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-file-alt"></i> Output</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('output')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Output Format')" title="Add Output Format">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
+                            <!-- Expertise -->
+                            <div class="accordion-item" data-accordion="expertise">
+                                <div class="accordion-header" onclick="toggleAccordion('expertise', 'group1')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-brain accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Expertise</span>
                                     </div>
-                                    <div class="column-content" id="outputFormatColumn"></div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('expertise')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Expertise')" title="Add Expertise">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
                                 </div>
-                                
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-tasks"></i> Approach</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('task')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Task Framing')" title="Add Task Approach">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="column-content" id="taskFramingColumn"></div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="expertiseColumn"></div>
                                 </div>
-                                
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-link"></i> Context</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('context')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddPresetDialog('Context Hooks')" title="Add Context Hook">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
+                            </div>
+                            
+                            <!-- Personality -->
+                            <div class="accordion-item" data-accordion="personality">
+                                <div class="accordion-header" onclick="toggleAccordion('personality', 'group1')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-comments accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Personality</span>
                                     </div>
-                                    <div class="column-content" id="contextHooksColumn"></div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('personality')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Personality')" title="Add Personality">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
                                 </div>
-                                
-                                <div class="column-panel compact">
-                                    <div class="column-header">
-                                        <span><i class="fas fa-edit"></i> Custom</span>
-                                        <div class="column-header-right">
-                                            <button class="column-info-btn" onclick="showColumnInfo('custom')"><i class="fas fa-question-circle"></i></button>
-                                            <button class="add-new-btn-header" onclick="showAddCustomPromptDialog()" title="Add Custom Prompt">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="personalityColumn"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Constraints -->
+                            <div class="accordion-item" data-accordion="constraints">
+                                <div class="accordion-header" onclick="toggleAccordion('constraints', 'group1')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-ban accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Constraints</span>
                                     </div>
-                                    <div class="column-content" id="customPromptColumn"></div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('constraints')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Constraints')" title="Add Constraint">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
+                                </div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="constraintsColumn"></div>
                                 </div>
                             </div>
                             
                         </div>
                         
-                        <!-- RIGHT: PREVIEW PANEL -->
+                        <!-- COLUMN 3: ACCORDION GROUP 2 (Output, Approach, Context, Custom) -->
+                        <div class="accordion-column" id="accordionGroup2">
+                            
+                            <!-- Output Format -->
+                            <div class="accordion-item active" data-accordion="output">
+                                <div class="accordion-header" onclick="toggleAccordion('output', 'group2')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-file-alt accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Output Format</span>
+                                    </div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('output')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Output Format')" title="Add Output Format">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
+                                </div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="outputFormatColumn"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Task Framing -->
+                            <div class="accordion-item" data-accordion="approach">
+                                <div class="accordion-header" onclick="toggleAccordion('approach', 'group2')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-tasks accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Approach</span>
+                                    </div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('task')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Task Framing')" title="Add Task Approach">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
+                                </div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="taskFramingColumn"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Context Hooks -->
+                            <div class="accordion-item" data-accordion="context">
+                                <div class="accordion-header" onclick="toggleAccordion('context', 'group2')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-link accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Context</span>
+                                    </div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('context')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddPresetDialog('Context Hooks')" title="Add Context Hook">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
+                                </div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="contextHooksColumn"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Custom -->
+                            <div class="accordion-item" data-accordion="custom">
+                                <div class="accordion-header" onclick="toggleAccordion('custom', 'group2')">
+                                    <div class="accordion-header-left">
+                                        <i class="fas fa-edit accordion-header-icon"></i>
+                                        <span class="accordion-header-title">Custom</span>
+                                    </div>
+                                    <div class="accordion-header-right">
+                                        <button class="column-info-btn" onclick="event.stopPropagation(); showColumnInfo('custom')"><i class="fas fa-question-circle"></i></button>
+                                        <button class="add-new-btn-header" onclick="event.stopPropagation(); showAddCustomPromptDialog()" title="Add Custom Prompt">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <i class="fas fa-chevron-down accordion-chevron"></i>
+                                    </div>
+                                </div>
+                                <div class="accordion-content">
+                                    <div class="accordion-inner" id="customPromptColumn"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- COLUMN 4: PREVIEW PANEL -->
                         <div class="preview-panel-right">
                             <div class="preview-header">
                                 <h3><i class="fas fa-eye"></i> Combined Prompt</h3>
@@ -176,64 +231,23 @@ function renderUnifiedModal() {
     `;
 }
 
-function showAddNewPresetDialog() {
-    // Dialog untuk membuat preset baru dari scratch
-    const overlay = document.createElement('div');
-    overlay.className = 'custom-prompt-overlay';
-    overlay.style.cssText = '...';
+// Toggle accordion function - only one open per group
+function toggleAccordion(accordionId, group) {
+    const groupContainer = document.getElementById(`accordionGroup${group === 'group1' ? '1' : '2'}`);
+    const allItems = groupContainer.querySelectorAll('.accordion-item');
+    const targetItem = groupContainer.querySelector(`[data-accordion="${accordionId}"]`);
     
-    overlay.innerHTML = `
-        <div style="...">
-            <h3>Create New Preset</h3>
-            <input id="newPresetName" placeholder="Preset Name">
-            <input id="newPresetDesc" placeholder="Description">
-            <input id="newPresetIcon" placeholder="Icon (emoji)">
-            <div>
-                <button onclick="cancelAddNewPreset()">Cancel</button>
-                <button onclick="confirmAddNewPreset()">Create</button>
-            </div>
-        </div>
-    `;
+    // Close all other accordions in this group
+    allItems.forEach(item => {
+        if (item !== targetItem) {
+            item.classList.remove('active');
+        }
+    });
     
-    document.body.appendChild(overlay);
+    // Toggle target accordion
+    targetItem.classList.toggle('active');
 }
-
-function updateCurrentPreset() {
-    // Cek apakah ada preset yang sedang di-load
-    const currentLoadedPresetId = localStorage.getItem('currentLoadedPresetId');
-    
-    if (!currentLoadedPresetId) {
-        showToast('No preset loaded. Use "Save As New" instead.', 'warning');
-        return;
-    }
-    
-    // Update preset yang sudah ada
-    const savedPresets = JSON.parse(localStorage.getItem('savedCompletePresets') || '[]');
-    const presetIndex = savedPresets.findIndex(p => p.id === currentLoadedPresetId);
-    
-    if (presetIndex === -1) {
-        showToast('Preset not found', 'error');
-        return;
-    }
-    
-    // Update dengan konfigurasi saat ini
-    savedPresets[presetIndex] = {
-        ...savedPresets[presetIndex],
-        identity: selectedIdentity?.id || null,
-        expertise: selectedExpertise?.id || null,
-        personality: selectedPersonality?.id || null,
-        constraints: selectedConstraints?.id || null,
-        outputFormat: selectedOutputFormat?.id || null,
-        taskFraming: selectedTaskFraming?.id || null,
-        contextHooks: selectedContextHooks?.id || null,
-        customPrompts: window.selectedCustomPrompts || []
-    };
-    
-    localStorage.setItem('savedCompletePresets', JSON.stringify(savedPresets));
-    
-    renderSavedPresets();
-    showToast(`✅ Updated: ${savedPresets[presetIndex].name}`, 'success');
-}
+window.toggleAccordion = toggleAccordion;
 
 function showColumnInfo(type) {
     const info = {
@@ -351,7 +365,6 @@ function renderColumnItems(category, containerId, selected) {
                 </div>
             </div>
             
-            <!-- ALWAYS show edit/delete buttons for ALL items (including defaults) -->
             <div class="column-item-actions" 
                  style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: flex !important; visibility: visible !important; gap: 4px; opacity: 0; transition: opacity 0.15s; z-index: 9999; flex-shrink: 0; background: linear-gradient(to left, rgba(30, 41, 59, 0.98) 70%, transparent); padding-left: 12px;"
                  onclick="event.stopPropagation();">
@@ -371,7 +384,6 @@ function renderColumnItems(category, containerId, selected) {
                 </button>
             </div>
             
-            <!-- Checkmark: GREEN for defaults, GOLD for custom -->
             ${selected?.id === item.id ? `
                 <div style="width: 20px; height: 20px; background: linear-gradient(135deg, ${item.isDefault ? '#22c55e, #16a34a' : '#fbbf24, #f59e0b'}); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; box-shadow: 0 2px 8px rgba(${item.isDefault ? '34, 197, 94' : '251, 191, 36'}, 0.3); margin-left: 8px; flex-shrink: 0;">✓</div>
             ` : ''}
@@ -392,12 +404,12 @@ function selectPresetItem(category, id) {
         else if (category === 'Task Framing') selectedTaskFraming = null;
         else if (category === 'Context Hooks') selectedContextHooks = null;
         
-        // Clear loaded preset indicator since user modified manually
         localStorage.removeItem('currentLoadedPresetId');
         
         renderAllColumns();
         updatePresetPreview();
-        renderSavedPresets(); // Re-render to remove checkmark
+        renderSavedPresets();
+        updateCurrentPreset(); // ✅ Update button di chat area
         return;
     }
     
@@ -414,12 +426,12 @@ function selectPresetItem(category, id) {
     else if (category === 'Task Framing') selectedTaskFraming = item;
     else if (category === 'Context Hooks') selectedContextHooks = item;
     
-    // Clear loaded preset indicator since user modified manually
     localStorage.removeItem('currentLoadedPresetId');
     
     renderAllColumns();
     updatePresetPreview();
-    renderSavedPresets(); // Re-render to remove checkmark
+    renderSavedPresets();
+    updateCurrentPreset(); // ✅ Update button di chat area
 }
 
 function updatePresetPreview() {
@@ -429,7 +441,6 @@ function updatePresetPreview() {
     const titles = [];
     const prompts = [];
     
-    // Always show all 7 categories with "-" as default
     const identityName = selectedIdentity ? selectedIdentity.name : '-';
     const expertiseName = selectedExpertise ? selectedExpertise.name : '-';
     const personalityName = selectedPersonality ? selectedPersonality.name : '-';
@@ -438,7 +449,6 @@ function updatePresetPreview() {
     const approachName = selectedTaskFraming ? selectedTaskFraming.name : '-';
     const contextHooksName = selectedContextHooks ? selectedContextHooks.name : '-';
     
-    // Always add all titles
     titles.push(`<div class="preview-title-line"><span class="preview-inline-title">IDENTITY:</span> <span class="preview-inline-item">${identityName}</span></div>`);
     titles.push(`<div class="preview-title-line"><span class="preview-inline-title">EXPERTISE:</span> <span class="preview-inline-item">${expertiseName}</span></div>`);
     titles.push(`<div class="preview-title-line"><span class="preview-inline-title">PERSONALITY:</span> <span class="preview-inline-item">${personalityName}</span></div>`);
@@ -447,7 +457,6 @@ function updatePresetPreview() {
     titles.push(`<div class="preview-title-line"><span class="preview-inline-title">APPROACH:</span> <span class="preview-inline-item">${approachName}</span></div>`);
     titles.push(`<div class="preview-title-line"><span class="preview-inline-title">CONTEXT HOOKS:</span> <span class="preview-inline-item">${contextHooksName}</span></div>`);
     
-    // Only add prompts for selected items
     if (selectedIdentity) {
         prompts.push(`<div class="preview-prompt-line">${selectedIdentity.systemPrompt}</div>`);
     }
@@ -476,19 +485,16 @@ function updatePresetPreview() {
         prompts.push(`<div class="preview-prompt-line">${selectedContextHooks.systemPrompt}</div>`);
     }
     
-    // Add custom prompts title and prompts (only selected ones)
     const allCustomPrompts = JSON.parse(localStorage.getItem('customPrompts') || '[]');
     const selectedCustomPromptsData = allCustomPrompts.filter(cp => window.selectedCustomPrompts.includes(cp.id));
     const customPromptName = selectedCustomPromptsData.length > 0 ? `${selectedCustomPromptsData.length} Custom` : '-';
     titles.push(`<div class="preview-title-line"><span class="preview-inline-title">CUSTOM:</span> <span class="preview-inline-item">${customPromptName}</span></div>`);
     
-    // Add selected custom prompt content
     selectedCustomPromptsData.forEach(cp => {
         prompts.push(`<div class="preview-prompt-line">${cp.content}</div>`);
     });
     
     if (prompts.length === 0) {
-        // Show titles with all "-", and placeholder message
         preview.innerHTML = `
             <div class="preview-single-box">
                 <div class="preview-titles-section">
@@ -501,7 +507,6 @@ function updatePresetPreview() {
             </div>
         `;
     } else {
-        // Show titles with selected items, and their prompts
         preview.innerHTML = `
             <div class="preview-single-box">
                 <div class="preview-titles-section">
@@ -545,12 +550,10 @@ function renderSavedPresets() {
     const savedPresets = JSON.parse(localStorage.getItem('savedCompletePresets') || '[]');
     const currentLoadedPreset = localStorage.getItem('currentLoadedPresetId') || null;
     
-    // Check if nothing is selected (all are null)
     const nothingSelected = !selectedIdentity && !selectedExpertise && !selectedPersonality && 
                            !selectedConstraints && !selectedOutputFormat && !selectedTaskFraming && 
                            !selectedContextHooks && window.selectedCustomPrompts.length === 0;
     
-    // None option (Clear All)
     const noneOption = `
         <div class="saved-preset-card ${nothingSelected ? 'loaded' : ''}" 
              onclick="clearAllSelections()">
@@ -628,7 +631,6 @@ function renderSavedPresets() {
 function clearAllSelections() {
     console.log('🔄 Clearing all selections...');
     
-    // Clear all category selections
     selectedIdentity = null;
     selectedExpertise = null;
     selectedPersonality = null;
@@ -637,20 +639,17 @@ function clearAllSelections() {
     selectedTaskFraming = null;
     selectedContextHooks = null;
     
-    // Clear custom prompts selection
     window.selectedCustomPrompts = [];
     
-    // Clear loaded preset indicator
     localStorage.removeItem('currentLoadedPresetId');
     
-    // Re-render everything
     renderAllColumns();
     updatePresetPreview();
     renderSavedPresets();
     
     showToast('All selections cleared', 'success');
 }
-window.clearAllSelections = clearAllSelections; // Make globally accessible
+window.clearAllSelections = clearAllSelections;
 
 function saveCurrentAsPreset() {
     if (!selectedIdentity && !selectedExpertise && !selectedPersonality && 
@@ -660,7 +659,6 @@ function saveCurrentAsPreset() {
         return;
     }
     
-    // Auto-generate name from selected components
     const components = [];
     if (selectedIdentity) components.push(selectedIdentity.name);
     if (selectedExpertise) components.push(selectedExpertise.name);
@@ -668,7 +666,6 @@ function saveCurrentAsPreset() {
     
     const autoName = components.length > 0 ? components.join(' + ') : 'Custom Agent';
     
-    // Save directly without dialog
     const preset = {
         id: `saved_${Date.now()}`,
         name: autoName,
@@ -688,7 +685,6 @@ function saveCurrentAsPreset() {
     savedPresets.push(preset);
     localStorage.setItem('savedCompletePresets', JSON.stringify(savedPresets));
     
-    // Auto-load the newly saved preset
     localStorage.setItem('currentLoadedPresetId', preset.id);
     
     renderSavedPresets();
@@ -696,7 +692,131 @@ function saveCurrentAsPreset() {
     showToast(`✅ Saved as "${autoName}"`, 'success');
 }
 
-function confirmAddNewPreset() {
+function updateCurrentPreset() {
+    const currentLoadedPresetId = localStorage.getItem('currentLoadedPresetId');
+    
+    if (!currentLoadedPresetId) {
+        showToast('⚠️ No preset loaded. Use "Save As New" instead.', 'warning');
+        return;
+    }
+    
+    if (!selectedIdentity && !selectedExpertise && !selectedPersonality && 
+        !selectedConstraints && !selectedOutputFormat && !selectedTaskFraming && 
+        !selectedContextHooks && window.selectedCustomPrompts.length === 0) {
+        showToast('Select at least one component first', 'warning');
+        return;
+    }
+    
+    const savedPresets = JSON.parse(localStorage.getItem('savedCompletePresets') || '[]');
+    const presetIndex = savedPresets.findIndex(p => p.id === currentLoadedPresetId);
+    
+    if (presetIndex === -1) {
+        showToast('❌ Preset not found', 'error');
+        localStorage.removeItem('currentLoadedPresetId');
+        return;
+    }
+    
+    savedPresets[presetIndex] = {
+        ...savedPresets[presetIndex],
+        identity: selectedIdentity?.id || null,
+        expertise: selectedExpertise?.id || null,
+        personality: selectedPersonality?.id || null,
+        constraints: selectedConstraints?.id || null,
+        outputFormat: selectedOutputFormat?.id || null,
+        taskFraming: selectedTaskFraming?.id || null,
+        contextHooks: selectedContextHooks?.id || null,
+        customPrompts: window.selectedCustomPrompts || []
+    };
+    
+    localStorage.setItem('savedCompletePresets', JSON.stringify(savedPresets));
+    
+    renderSavedPresets();
+    updatePresetPreview();
+    showToast(`✅ Updated: ${savedPresets[presetIndex].name}`, 'success');
+}
+
+function showAddNewPresetDialog() {
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-prompt-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    const dialog = document.createElement('div');
+    dialog.style.cssText = `
+        background: #1e293b;
+        border: 1px solid #475569;
+        border-radius: 12px;
+        padding: 24px;
+        width: 500px;
+        max-width: 90vw;
+    `;
+    
+    dialog.innerHTML = `
+        <h3 style="margin: 0 0 20px 0; color: #f1f5f9; font-size: 18px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-plus-circle" style="color: #22c55e;"></i>
+            Create New Preset
+        </h3>
+        
+        <div style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 13px; font-weight: 600;">Name:</label>
+            <input type="text" id="newPresetName" placeholder="e.g., My Custom Agent"
+                   style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #f1f5f9; font-size: 14px; box-sizing: border-box;">
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 13px; font-weight: 600;">Description:</label>
+            <textarea id="newPresetDesc" rows="2" placeholder="What is this preset for?"
+                      style="width: 100%; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #f1f5f9; font-size: 14px; box-sizing: border-box; resize: vertical; font-family: inherit;"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; color: #94a3b8; font-size: 13px; font-weight: 600;">Icon (emoji):</label>
+            <input type="text" id="newPresetIcon" placeholder="⭐" maxlength="2"
+                   style="width: 80px; padding: 10px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #f1f5f9; font-size: 24px; text-align: center; box-sizing: border-box;">
+        </div>
+        
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button id="cancelNewPreset" style="padding: 10px 20px; background: #475569; border: none; border-radius: 6px; color: #f1f5f9; cursor: pointer; font-size: 14px;">Cancel</button>
+            <button id="confirmNewPreset" style="padding: 10px 20px; background: #22c55e; border: none; border-radius: 6px; color: #0f172a; cursor: pointer; font-size: 14px; font-weight: 600;">Create</button>
+        </div>
+    `;
+    
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => document.getElementById('newPresetName').focus(), 100);
+    
+    document.getElementById('cancelNewPreset').onclick = () => {
+        document.body.removeChild(overlay);
+    };
+    
+    document.getElementById('confirmNewPreset').onclick = () => {
+        confirmAddNewPreset(overlay);
+    };
+    
+    overlay.onclick = (e) => {
+        if (e.target === overlay) {
+            document.body.removeChild(overlay);
+        }
+    };
+    
+    const escHandler = (e) => {
+        if (e.key === 'Escape') {
+            document.body.removeChild(overlay);
+            document.removeEventListener('keydown', escHandler);
+        }
+    };
+    document.addEventListener('keydown', escHandler);
+}
+
+function confirmAddNewPreset(overlay) {
     const name = document.getElementById('newPresetName').value.trim();
     const desc = document.getElementById('newPresetDesc').value.trim();
     const icon = document.getElementById('newPresetIcon').value.trim();
@@ -706,7 +826,6 @@ function confirmAddNewPreset() {
         return;
     }
     
-    // Buat preset kosong baru
     const preset = {
         id: `saved_${Date.now()}`,
         name: name,
@@ -726,10 +845,9 @@ function confirmAddNewPreset() {
     savedPresets.push(preset);
     localStorage.setItem('savedCompletePresets', JSON.stringify(savedPresets));
     
-    // Load preset baru ini
     loadSavedPreset(preset.id);
     
-    document.querySelector('.custom-prompt-overlay').remove();
+    document.body.removeChild(overlay);
     renderSavedPresets();
     showToast(`✅ Created: ${name}`, 'success');
 }
@@ -751,17 +869,15 @@ function loadSavedPreset(id) {
     selectedTaskFraming = allPresets.find(p => p.id === preset.taskFraming) || null;
     selectedContextHooks = allPresets.find(p => p.id === preset.contextHooks) || null;
     
-    // Load custom prompts if available
     window.selectedCustomPrompts = preset.customPrompts || [];
     
-    // Track loaded preset
     localStorage.setItem('currentLoadedPresetId', id);
     
     renderAllColumns();
     updatePresetPreview();
-    renderSavedPresets(); // Re-render to show checkmark
-    updateCurrentPreset(); // Update the main button
-    showToast(`✔ Loaded: ${preset.name}`, 'success');
+    renderSavedPresets();
+    updateCurrentPreset();
+    showToast(`✓ Loaded: ${preset.name}`, 'success');
 }
 
 function editSavedPreset(id) {
@@ -770,7 +886,6 @@ function editSavedPreset(id) {
     
     if (!preset) return;
     
-    // Create custom dialog with both name and description fields
     const overlay = document.createElement('div');
     overlay.className = 'custom-prompt-overlay';
     overlay.style.cssText = `
@@ -817,15 +932,12 @@ function editSavedPreset(id) {
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
     
-    // Focus name input
     setTimeout(() => document.getElementById('editPresetName').focus(), 100);
     
-    // Cancel button
     document.getElementById('cancelEditPreset').onclick = () => {
         document.body.removeChild(overlay);
     };
     
-    // Save button
     document.getElementById('saveEditPreset').onclick = () => {
         const name = document.getElementById('editPresetName').value.trim();
         const description = document.getElementById('editPresetDescription').value.trim();
@@ -845,14 +957,12 @@ function editSavedPreset(id) {
         showToast('Preset updated!', 'success');
     };
     
-    // Close on overlay click
     overlay.onclick = (e) => {
         if (e.target === overlay) {
             document.body.removeChild(overlay);
         }
     };
     
-    // Close on Escape
     const escHandler = (e) => {
         if (e.key === 'Escape') {
             document.body.removeChild(overlay);
@@ -873,10 +983,9 @@ function deleteSavedPreset(id) {
     });
 }
 
-// ========== CUSTOM PROMPTS FUNCTIONS ==========
-
-// Make explicitly global
-window.selectedCustomPrompts = window.selectedCustomPrompts || []; // Track multiple selected custom prompts
+// Continue in Part 4...
+// CUSTOM PROMPTS
+window.selectedCustomPrompts = window.selectedCustomPrompts || [];
 
 function renderCustomPrompts() {
     const container = document.getElementById('customPromptColumn');
@@ -885,7 +994,6 @@ function renderCustomPrompts() {
     let customPrompts = JSON.parse(localStorage.getItem('customPrompts') || '[]');
     console.log('Custom prompts loaded:', customPrompts);
     
-    // Fix any prompts without IDs
     let needsSave = false;
     customPrompts = customPrompts.map(prompt => {
         if (!prompt.id) {
@@ -948,10 +1056,9 @@ function toggleCustomPrompt(id) {
     renderCustomPrompts();
     updatePresetPreview();
 }
-window.toggleCustomPrompt = toggleCustomPrompt; // Make globally accessible
+window.toggleCustomPrompt = toggleCustomPrompt;
 
 function showAddCustomPromptDialog() {
-    // Create custom dialog with both name and content fields
     const overlay = document.createElement('div');
     overlay.className = 'custom-prompt-overlay';
     overlay.style.cssText = `
@@ -998,15 +1105,12 @@ function showAddCustomPromptDialog() {
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
     
-    // Focus name input
     setTimeout(() => document.getElementById('addPromptName').focus(), 100);
     
-    // Cancel button
     document.getElementById('cancelAdd').onclick = () => {
         document.body.removeChild(overlay);
     };
     
-    // Save button
     document.getElementById('saveAdd').onclick = () => {
         const name = document.getElementById('addPromptName').value.trim();
         const content = document.getElementById('addPromptContent').value.trim();
@@ -1037,14 +1141,12 @@ function showAddCustomPromptDialog() {
         showToast('Custom prompt added!', 'success');
     };
     
-    // Close on overlay click
     overlay.onclick = (e) => {
         if (e.target === overlay) {
             document.body.removeChild(overlay);
         }
     };
     
-    // Close on Escape
     const escHandler = (e) => {
         if (e.key === 'Escape') {
             document.body.removeChild(overlay);
@@ -1056,14 +1158,13 @@ function showAddCustomPromptDialog() {
 
 function editCustomPrompt(id, event) {
     console.log('Edit custom prompt:', id, event);
-    if (event) event.stopPropagation(); // Prevent item selection
+    if (event) event.stopPropagation();
     
     const customPrompts = JSON.parse(localStorage.getItem('customPrompts') || '[]');
     const prompt = customPrompts.find(p => p.id === id);
     
     if (!prompt) return;
     
-    // Create custom dialog with both name and content fields
     const overlay = document.createElement('div');
     overlay.className = 'custom-prompt-overlay';
     overlay.style.cssText = `
@@ -1110,15 +1211,12 @@ function editCustomPrompt(id, event) {
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
     
-    // Focus name input
     setTimeout(() => document.getElementById('editPromptName').focus(), 100);
     
-    // Cancel button
     document.getElementById('cancelEdit').onclick = () => {
         document.body.removeChild(overlay);
     };
     
-    // Save button
     document.getElementById('saveEdit').onclick = () => {
         const name = document.getElementById('editPromptName').value.trim();
         const content = document.getElementById('editPromptContent').value.trim();
@@ -1144,14 +1242,12 @@ function editCustomPrompt(id, event) {
         showToast('Custom prompt updated!', 'success');
     };
     
-    // Close on overlay click
     overlay.onclick = (e) => {
         if (e.target === overlay) {
             document.body.removeChild(overlay);
         }
     };
     
-    // Close on Escape
     const escHandler = (e) => {
         if (e.key === 'Escape') {
             document.body.removeChild(overlay);
@@ -1160,18 +1256,17 @@ function editCustomPrompt(id, event) {
     };
     document.addEventListener('keydown', escHandler);
 }
-window.editCustomPrompt = editCustomPrompt; // Make globally accessible
+window.editCustomPrompt = editCustomPrompt;
 
 function deleteCustomPrompt(id, event) {
     console.log('Delete custom prompt:', id, event);
-    if (event) event.stopPropagation(); // Prevent item selection
+    if (event) event.stopPropagation();
     
     showConfirm('Delete this custom prompt?', () => {
         let customPrompts = JSON.parse(localStorage.getItem('customPrompts') || '[]');
         customPrompts = customPrompts.filter(p => p.id !== id);
         localStorage.setItem('customPrompts', JSON.stringify(customPrompts));
         
-        // Remove from selection if selected
         const index = window.selectedCustomPrompts.indexOf(id);
         if (index > -1) {
             window.selectedCustomPrompts.splice(index, 1);
@@ -1182,7 +1277,7 @@ function deleteCustomPrompt(id, event) {
         showToast('Custom prompt deleted!', 'success');
     });
 }
-window.deleteCustomPrompt = deleteCustomPrompt; // Make globally accessible
+window.deleteCustomPrompt = deleteCustomPrompt;
 
 function showAddPresetDialog(cat) {
     const overlay = document.createElement('div');
@@ -1247,70 +1342,6 @@ function showAddPresetDialog(cat) {
     };
 }
 
-function deletePresetItem(id) {
-    showConfirm('Delete this item?', () => {
-        allPresets = allPresets.filter(p => p.id !== id);
-        saveCustomPresets();
-        renderAllColumns();
-        showToast('Deleted', 'success');
-    });
-}
-
-function renderModelModal() {
-    return `
-        <div id="modelModal" class="modal-overlay">
-            <div class="modal" style="max-width: 600px;">
-                <div class="modal-header">
-                    <h2 class="modal-title">Select Model</h2>
-                    <button class="modal-close-btn" onclick="hideModelModal()"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="modal-content" style="padding: 24px;">
-                    ${models.map(m => `
-                        <div class="model-option ${selectedModel === m.id ? 'selected' : ''}" onclick="selectModel('${m.id}')">
-                            <span style="font-size: 24px;">${m.icon}</span>
-                            <div style="flex: 1;">
-                                <div style="font-weight: 600; color: #f1f5f9;">${m.name}</div>
-                                <div style="font-size: 12px; color: #94a3b8;">${m.provider}</div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="modal-footer">
-                    <button class="modal-done-btn" onclick="hideModelModal()">Done</button>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function showModelModal() { document.getElementById('modelModal').classList.add('show'); }
-function hideModelModal() { document.getElementById('modelModal').classList.remove('show'); }
-function selectModel(id) { selectedModel = id; updateModelDisplay(); hideModelModal(); }
-
-function renderProfileModal() {
-    return `
-        <div id="profileModal" class="modal-overlay">
-            <div class="modal" style="max-width: 500px;">
-                <div class="modal-header">
-                    <h2 class="modal-title">Profile</h2>
-                    <button class="modal-close-btn" onclick="hideProfileModal()"><i class="fas fa-times"></i></button>
-                </div>
-                <div class="modal-content" style="padding: 24px; text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #a855f7, #3b82f6); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 40px;">👤</div>
-                    <div style="font-size: 20px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;">John Doe</div>
-                    <div style="color: #94a3b8;">john@example.com</div>
-                </div>
-                <div class="modal-footer">
-                    <button class="modal-done-btn" onclick="hideProfileModal()">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function showProfileModal() { document.getElementById('profileModal').classList.add('show'); }
-function hideProfileModal() { document.getElementById('profileModal').classList.remove('show'); }
-
 function editPresetItem(id, cat) {
     const item = allPresets.find(p => p.id === id);
     if (!item) {
@@ -1369,13 +1400,57 @@ function deletePresetItem(id, cat) {
     });
 }
 
-function quickAddNewPreset() {
-    showUnifiedModal('preset');
-    
-    // Show a helper toast
-    setTimeout(() => {
-        showToast('💡 Select components, then click "Save Current" to create a preset', 'info', 4000);
-    }, 500);
+function renderModelModal() {
+    return `
+        <div id="modelModal" class="modal-overlay">
+            <div class="modal" style="max-width: 600px;">
+                <div class="modal-header">
+                    <h2 class="modal-title">Select Model</h2>
+                    <button class="modal-close-btn" onclick="hideModelModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-content" style="padding: 24px;">
+                    ${models.map(m => `
+                        <div class="model-option ${selectedModel === m.id ? 'selected' : ''}" onclick="selectModel('${m.id}')">
+                            <span style="font-size: 24px;">${m.icon}</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #f1f5f9;">${m.name}</div>
+                                <div style="font-size: 12px; color: #94a3b8;">${m.provider}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-done-btn" onclick="hideModelModal()">Done</button>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
-window.quickAddNewPreset = quickAddNewPreset;
+function showModelModal() { document.getElementById('modelModal').classList.add('show'); }
+function hideModelModal() { document.getElementById('modelModal').classList.remove('show'); }
+function selectModel(id) { selectedModel = id; updateModelDisplay(); hideModelModal(); }
+
+function renderProfileModal() {
+    return `
+        <div id="profileModal" class="modal-overlay">
+            <div class="modal" style="max-width: 500px;">
+                <div class="modal-header">
+                    <h2 class="modal-title">Profile</h2>
+                    <button class="modal-close-btn" onclick="hideProfileModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-content" style="padding: 24px; text-align: center;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #a855f7, #3b82f6); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 40px;">👤</div>
+                    <div style="font-size: 20px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;">John Doe</div>
+                    <div style="color: #94a3b8;">john@example.com</div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-done-btn" onclick="hideProfileModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showProfileModal() { document.getElementById('profileModal').classList.add('show'); }
+function hideProfileModal() { document.getElementById('profileModal').classList.remove('show'); }

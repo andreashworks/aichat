@@ -1,3 +1,5 @@
+console.log('📦 js/data.js loaded - VERSION: DEBUG-2025-01-27');
+
 // 7-COLUMN AI AGENT BUILDER SYSTEM
 const defaultPresets = [
     // ========== 1. IDENTITY ==========
@@ -116,8 +118,8 @@ function saveCustomPresets() {
     console.log('💾 Saved', customOnly.length, 'custom presets');
 }
 
-function updateCurrentPreset() {
-    console.log('🔄 Updating current preset display...');
+function updatePresetButtonDisplay() {
+    console.log('🔄 Updating preset button display...');
     
     const presetEl = document.getElementById('currentPreset');
     const iconEl = document.getElementById('presetIcon');
@@ -129,9 +131,12 @@ function updateCurrentPreset() {
     
     // Check if a saved preset is loaded
     const currentLoadedPresetId = localStorage.getItem('currentLoadedPresetId');
+    console.log('📋 Current loaded preset ID:', currentLoadedPresetId);
+    
     if (currentLoadedPresetId) {
         const savedPresets = JSON.parse(localStorage.getItem('savedCompletePresets') || '[]');
         const loadedPreset = savedPresets.find(p => p.id === currentLoadedPresetId);
+        console.log('📦 Found preset:', loadedPreset);
         
         if (loadedPreset) {
             presetEl.textContent = loadedPreset.name;
@@ -142,9 +147,21 @@ function updateCurrentPreset() {
     }
     
     // If no saved preset loaded, build name from selected components
+    console.log('🔍 Checking selected components...');
+    console.log('   - Identity:', selectedIdentity?.name);
+    console.log('   - Expertise:', selectedExpertise?.name);
+    console.log('   - Personality:', selectedPersonality?.name);
+    console.log('   - Constraints:', selectedConstraints?.name);
+    console.log('   - Output Format:', selectedOutputFormat?.name);
+    console.log('   - Task Framing:', selectedTaskFraming?.name);
+    console.log('   - Context Hooks:', selectedContextHooks?.name);
+    console.log('   - Custom Prompts:', window.selectedCustomPrompts?.length);
+    
     const hasSelection = selectedIdentity || selectedExpertise || selectedPersonality || 
                         selectedConstraints || selectedOutputFormat || selectedTaskFraming || 
                         selectedContextHooks || window.selectedCustomPrompts?.length > 0;
+    
+    console.log('📊 Has selection:', hasSelection);
     
     if (hasSelection) {
         // Build name from selected components

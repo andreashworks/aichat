@@ -1,3 +1,5 @@
+console.log('📦 js/modal.js loaded - VERSION: DEBUG-2025-01-27');
+
 function renderModals() {
     return `${renderUnifiedModal()}${renderModelModal()}${renderProfileModal()}`;
 }
@@ -283,12 +285,16 @@ function hideUnifiedModal() {
 }
 
 function applyFromUnifiedModal() {
+    console.log('🚀 ========== APPLY FROM UNIFIED MODAL ==========');
     console.log('✅ Applying agent configuration...');
     
-    updateCurrentPreset();
+    console.log('🔍 Calling updatePresetButtonDisplay()...');
+    updatePresetButtonDisplay();
+    console.log('✅ updatePresetButtonDisplay() finished');
     
     hideUnifiedModal();
     showToast('Agent configuration applied!', 'success');
+    console.log('🏁 ========== APPLY FINISHED ==========');
 }
 
 function renderAllColumns() {
@@ -646,6 +652,7 @@ function clearAllSelections() {
     renderAllColumns();
     updatePresetPreview();
     renderSavedPresets();
+    updatePresetButtonDisplay(); // ✅ Update button display
     
     showToast('All selections cleared', 'success');
 }
@@ -876,7 +883,7 @@ function loadSavedPreset(id) {
     renderAllColumns();
     updatePresetPreview();
     renderSavedPresets();
-    updateCurrentPreset();
+    updatePresetButtonDisplay(); // ✅ Update button display
     showToast(`✓ Loaded: ${preset.name}`, 'success');
 }
 
@@ -954,6 +961,7 @@ function editSavedPreset(id) {
         
         document.body.removeChild(overlay);
         renderSavedPresets();
+        updatePresetButtonDisplay(); // ✅ Update button if editing current preset
         showToast('Preset updated!', 'success');
     };
     
@@ -977,6 +985,13 @@ function deleteSavedPreset(id) {
         let savedPresets = JSON.parse(localStorage.getItem('savedCompletePresets') || '[]');
         savedPresets = savedPresets.filter(p => p.id !== id);
         localStorage.setItem('savedCompletePresets', JSON.stringify(savedPresets));
+        
+        // ✅ If deleting the currently loaded preset, clear it and update button
+        const currentLoadedPresetId = localStorage.getItem('currentLoadedPresetId');
+        if (currentLoadedPresetId === id) {
+            localStorage.removeItem('currentLoadedPresetId');
+            updatePresetButtonDisplay();
+        }
         
         renderSavedPresets();
         showToast('Preset deleted!', 'success');

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Super AI Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .particle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .particle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+        
+        .particle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        .particle:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 1s;
+        }
+        
+        .particle:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            top: 50%;
+            left: 50%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px);
+            }
+            75% {
+                transform: translateY(-20px) translateX(10px);
+            }
+        }
+        
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1100px;
+        }
+        
+        .login-wrapper {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        /* Left side - Form */
+        .login-form-side {
+            padding: 60px 50px;
+            background: white;
+        }
+        
+        .brand {
+            margin-bottom: 48px;
+        }
+        
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        
+        .form-header {
+            margin-bottom: 32px;
+        }
+        
+        .form-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+        
+        .form-subtitle {
+            font-size: 16px;
+            color: #718096;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #2d3748;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            background: white;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: #a0aec0;
+            font-weight: 500;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .checkbox-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .forgot-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .forgot-link:hover {
+            color: #764ba2;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+        }
+        
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        
+        .signup-text {
+            margin-top: 28px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #718096;
+        }
+        
+        .signup-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s ease;
+        }
+        
+        .signup-link:hover {
+            color: #764ba2;
+        }
+        
+        /* Right side - OAuth */
+        .oauth-side {
+            padding: 60px 50px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .oauth-header {
+            margin-bottom: 32px;
+        }
+        
+        .oauth-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+        
+        .oauth-subtitle {
+            font-size: 15px;
+            color: #718096;
+            font-weight: 600;
+        }
+        
+        .oauth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        
+        .btn-oauth {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        
+        .btn-oauth:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .oauth-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        
+        .oauth-text {
+            flex: 1;
+            text-align: left;
+            color: #2d3748;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 32px 0;
+        }
+        
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #cbd5e0;
+        }
+        
+        .divider-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            gap: 14px;
+            align-items: start;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+            letter-spacing: 0.2px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        /* Loading state */
+        .btn-submit.loading,
+        .btn-oauth.loading {
+            pointer-events: none;
+            position: relative;
+            color: transparent;
+        }
+        
+        .btn-submit.loading::after,
+        .btn-oauth.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        .btn-oauth.loading::after {
+            border-color: rgba(102, 126, 234, 0.3);
+            border-top-color: #667eea;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .login-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-form-side,
+            .oauth-side {
+                padding: 48px 40px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .login-form-side,
+            .oauth-side {
+                padding: 40px 24px;
+            }
+            
+            .form-title {
+                font-size: 28px;
+            }
+            
+            .oauth-title {
+                font-size: 24px;
+            }
+            
+            .brand {
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="container">
+        <div class="login-wrapper">
+            <div class="login-grid">
+                <!-- Left Side - Login Form -->
+                <div class="login-form-side">
+                    <div class="brand">
+                        <a href="#" class="brand-logo">
+                            <div class="brand-icon">S</div>
+                            <div class="brand-name">Super AI Agent</div>
+                        </a>
+                    </div>
+                    
+                    <div class="form-header">
+                        <h1 class="form-title">Welcome Back</h1>
+                        <p class="form-subtitle">Sign in to continue to your account</p>
+                    </div>
+                    
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">EMAIL OR USERNAME</label>
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                placeholder="Enter your email"
+                                id="email"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">PASSWORD</label>
+                            <input 
+                                type="password" 
+                                class="form-input" 
+                                placeholder="Enter your password"
+                                id="password"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-options">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="remember" class="checkbox">
+                                <label for="remember" class="checkbox-label">Remember me</label>
+                            </div>
+                            <a href="#" class="forgot-link">Forgot Password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            Sign In
+                        </button>
+                    </form>
+                    
+                    <p class="signup-text">
+                        Don't have an account? <a href="#" class="signup-link">Create Account</a>
+                    </p>
+                </div>
+                
+                <!-- Right Side - OAuth -->
+                <div class="oauth-side">
+                    <div class="oauth-header">
+                        <h2 class="oauth-title">Quick Sign In</h2>
+                        <p class="oauth-subtitle">Use your social account to sign in quickly</p>
+                    </div>
+                    
+                    <div class="oauth-buttons">
+                        <button class="btn-oauth" onclick="handleOAuth('google')">
+                            <svg class="oauth-icon" viewBox="0 0 24 24">
+                                <path fill="#EA4335" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"/>
+                                <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2936293 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"/>
+                                <path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903663 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"/>
+                                <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"/>
+                            </svg>
+                            <span class="oauth-text">Continue with Google</span>
+                        </button>
+                        
+                        <button class="btn-oauth" onclick="handleOAuth('github')">
+                            <svg class="oauth-icon" viewBox="0 0 24 24" fill="#2d3748">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                            </svg>
+                            <span class="oauth-text">Continue with GitHub</span>
+                        </button>
+                    </div>
+                    
+                    <div class="divider">
+                        <div class="divider-line"></div>
+                        <span class="divider-text">Benefits</span>
+                        <div class="divider-line"></div>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature-item">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-content">
+                                <div class="feature-title">Secure & Encrypted</div>
+                                <div class="feature-desc">Your data is protected with bank-level encryption</div>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-content">
+                                <div class="feature-title">Lightning Fast</div>
+                                <div class="feature-desc">Access your AI agent instantly from anywhere</div>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">🎯</div>
+                            <div class="feature-content">
+                                <div class="feature-title">Smart & Adaptive</div>
+                                <div class="feature-desc">AI that learns and adapts to your workflow</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            btn.classList.add('loading');
+            
+            // Simulate API call
+            setTimeout(() => {
+                console.log('Login:', { email, password });
+                
+                // Store user session (mockup)
+                sessionStorage.setItem('userLoggedIn', 'true');
+                sessionStorage.setItem('userEmail', email);
+                
+                // Redirect to dashboard
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+        
+        function handleOAuth(provider) {
+            const button = event.currentTarget;
+            button.classList.add('loading');
+            
+            setTimeout(() => {
+                console.log(`OAuth: ${provider}`);
+                
+                // Store user session (mockup)
+                sessionStorage.setItem('userLoggedIn', 'true');
+                sessionStorage.setItem('userEmail', `user@${provider}.com`);
+                sessionStorage.setItem('authProvider', provider);
+                
+                // Redirect to dashboard
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

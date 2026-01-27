@@ -1,0 +1,3125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Super AI Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --accent-primary: #6366f1;
+            --accent-secondary: #ec4899;
+            --accent-tertiary: #06b6d4;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --accent-green: #10b981;
+            --accent-yellow: #fbbf24;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        body {
+            font-family: 'Urbanist', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.25;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 10% 80%, rgba(249, 115, 22, 0.3) 0%, transparent 50%);
+            filter: blur(80px);
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.25; }
+            50% { opacity: 0.35; }
+        }
+        
+        /* Top Navigation */
+        .top-nav {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 32px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .nav-item {
+            padding: 10px 18px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+        
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.15);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .user-profile-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-profile-mini:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .user-avatar-mini {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .user-name-mini {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .page-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+        
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        /* Stats Grid - 3 Kolom Layout */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+        
+        .ai-models-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        /* AI Agents Section */
+        .ai-agents-section {
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out 0.1s backwards;
+        }
+        
+        .ai-agents-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .ai-agent-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .ai-agent-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow);
+            transform: translateY(-4px);
+        }
+        
+        .ai-agent-card:hover::before {
+            opacity: 1;
+        }
+        
+        .agent-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .agent-name {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .agent-model {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .agent-usage {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        /* Activity Grid - 2 columns */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out 0.3s backwards;
+        }
+        
+@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* AI Model Card */
+        .ai-model-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 200px;
+            justify-content: center;
+        }
+        
+        .ai-model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .ai-model-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow);
+            transform: translateY(-4px);
+        }
+        
+        .ai-model-card:hover::before {
+            opacity: 1;
+        }
+        
+        .ai-model-card:hover .model-icon {
+            transform: scale(1.1);
+        }
+        
+        .model-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .model-icon.sonnet {
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+        }
+        
+        .model-icon.opus {
+            background: linear-gradient(135deg, #a855f7, #06b6d4);
+        }
+        
+        .model-icon.haiku {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+        }
+        
+        .model-icon.sonnet-old {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+        }
+        
+        .model-icon.opus-old {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+        
+        .model-icon.legacy {
+            background: linear-gradient(135deg, #64748b, #475569);
+        }
+        
+        .model-name {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .model-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .model-click-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .ai-model-card:hover .model-click-hint {
+            opacity: 1;
+        }
+        
+        /* Top Presets Card */
+        .top-presets-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        
+        .top-presets-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+        
+        /* List AI Preset Card */
+        .list-preset-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        
+        .list-preset-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .list-preset-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .list-preset-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+            transform: translateX(4px);
+        }
+        
+        .list-preset-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .list-preset-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .list-preset-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .list-preset-name {
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        
+        .list-preset-model {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .list-preset-count {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+        
+        /* Top Model Cost Card */
+        .top-model-cost-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s;
+            animation: fadeInUp 0.6s ease-out 0.3s backwards;
+        }
+        
+        .top-model-cost-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .cost-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .cost-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .cost-title-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-tertiary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .cost-title h3 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        
+        .cost-total {
+            text-align: right;
+        }
+        
+        .cost-total-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .cost-total-value {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--accent-green);
+        }
+        
+        .model-cost-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        
+        .model-cost-item:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-green);
+            transform: translateX(4px);
+        }
+        
+        .model-cost-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .model-cost-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .model-cost-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .model-cost-name {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+        
+        .model-cost-usage {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .model-cost-value {
+            text-align: right;
+        }
+        
+        .model-cost-amount {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 2px;
+        }
+        
+        .model-cost-percentage {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+        
+        .preset-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .preset-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .preset-title-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-orange));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .preset-title h3 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        
+        .preset-view-all {
+            padding: 8px 16px;
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .preset-view-all:hover {
+            background: rgba(168, 85, 247, 0.2);
+            transform: translateX(2px);
+        }
+        
+        .top-preset-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: rgba(168, 85, 247, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        
+        .top-preset-item:hover {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: var(--accent-purple);
+            transform: translateX(4px);
+        }
+        
+        .top-preset-rank {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-orange));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        
+        .top-preset-info {
+            flex: 1;
+        }
+        
+        .top-preset-name {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .top-preset-usage {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .top-preset-value {
+            text-align: right;
+        }
+        
+        .top-preset-count {
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 2px;
+        }
+        
+        .top-preset-percentage {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 700;
+        }
+        
+        /* Stat Card (untuk yang lain) */
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .stat-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(34, 197, 94, 0.15);
+            border-radius: 8px;
+        }
+        
+        .trend-icon {
+            font-size: 14px;
+            color: var(--success);
+        }
+        
+        .trend-value {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--success);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 900;
+            margin: 12px 0;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        
+        .stat-meta {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .meta-icon {
+            font-size: 14px;
+            color: var(--accent-primary);
+        }
+        
+        .meta-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .meta-value {
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+        
+        /* Currency Switcher */
+        .currency-switcher {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-tertiary);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .currency-btn {
+            padding: 6px 14px;
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+        
+        .currency-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .currency-btn:hover:not(.active) {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--text-primary);
+        }
+        
+
+        
+        /* Presets Section */
+        .presets-section {
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out 0.4s backwards;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-orange));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+        }
+        
+        .section-title h2 {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        .action-btn.primary {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+        
+        .action-btn.primary:hover {
+            background: #5558e3;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        
+        /* Presets Grid */
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .preset-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preset-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .preset-item:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow);
+            transform: translateY(-4px);
+        }
+        
+        .preset-item:hover::before {
+            opacity: 1;
+        }
+        
+        .preset-item.selected {
+            border-color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .preset-header-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .preset-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .preset-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 12px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        
+        .preset-name {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        
+        .preset-model {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .preset-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .preset-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .preset-stat {
+            background: rgba(99, 102, 241, 0.05);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        
+        .preset-stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        
+        .preset-stat-value {
+            font-size: 16px;
+            font-weight: 900;
+        }
+        
+        /* Activity Feed */
+        .activity-section {
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+        
+        .activity-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        
+        .activity-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow);
+        }
+        
+        .activity-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+        
+        .activity-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .activity-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-tertiary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        
+        .activity-title h3 {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        .activity-filter {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px;
+            background: rgba(99, 102, 241, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            transition: all 0.2s;
+        }
+        
+        .activity-item:hover {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: var(--accent-primary);
+            transform: translateX(4px);
+        }
+        
+        .activity-item-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .activity-item-content {
+            flex: 1;
+        }
+        
+        .activity-item-title {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .activity-item-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .activity-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-align: right;
+        }
+        
+        .activity-item-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        
+        .activity-item-value {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            animation: slideUp 0.3s ease-out;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+        
+        .modal-title-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .modal-title-text h3 {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+        
+        .modal-model {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            background: rgba(239, 68, 68, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 28px;
+            padding: 20px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        
+        .modal-stat {
+            background: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .modal-stat-value {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+        
+        .modal-stat-trend {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 700;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        .modal-btn.primary:hover {
+            background: #5558e3;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .modal-btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal-btn.secondary:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Improved Modal Styles */
+        .modal-body {
+            padding: 0 40px 40px 40px;
+        }
+        
+        .modal-header {
+            padding: 40px 40px 28px 40px;
+            margin-bottom: 0;
+        }
+        
+        .modal-desc {
+            margin-bottom: 32px;
+        }
+        
+        .modal-section {
+            margin-bottom: 32px;
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-section-title i {
+            color: var(--accent-primary);
+        }
+        
+        .modal-features {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .modal-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 14px;
+            transition: all 0.2s;
+        }
+        
+        .modal-feature:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateX(4px);
+        }
+        
+        .modal-feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(99, 102, 241, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--accent-primary);
+            flex-shrink: 0;
+        }
+        
+        .modal-feature-content {
+            flex: 1;
+        }
+        
+        .modal-feature-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        
+        .modal-feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .modal-performance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .modal-performance-item {
+            background: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal-performance-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .modal-performance-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .modal-performance-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .modal-actions {
+            padding: 24px 40px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 0;
+        }
+        
+        .modal-content {
+            max-width: 900px;
+            padding: 0;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        
+        /* Model Detail Modal */
+        .model-detail-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .model-detail-stat {
+            background: var(--bg-tertiary);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .model-detail-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .model-detail-stat-value {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+        
+        .model-detail-stat-trend {
+            font-size: 11px;
+            color: var(--success);
+            font-weight: 700;
+        }
+        
+        .model-detail-info {
+            background: rgba(99, 102, 241, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            margin-bottom: 24px;
+        }
+        
+        .model-detail-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        
+        .model-detail-info p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-models-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .ai-agents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-models-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-agents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .presets-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+            
+            .top-nav {
+                padding: 0 16px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .presets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 28px 24px;
+            }
+            
+            .modal-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .model-detail-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        
+        @media (max-width: 768px) {
+            .ai-agents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <a href="#" class="brand">
+                <div class="brand-icon">S</div>
+                <span class="brand-name">Super AI Agent</span>
+            </a>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active">Dashboard</a>
+                <a href="#" class="nav-item">Agents</a>
+                <a href="#" class="nav-item">Analytics</a>
+                <a href="#" class="nav-item">Settings</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="currency-switcher">
+                <button class="currency-btn" onclick="changeCurrency('USD')">USD</button>
+                <button class="currency-btn" onclick="changeCurrency('IDR')">IDR</button>
+            </div>
+            <div class="user-profile-mini" onclick="showUserMenu()">
+                <div class="user-avatar-mini">R</div>
+                <span class="user-name-mini">Ridho Fajar</span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Pantau performa AI Agent Anda secara real-time</p>
+        </div>
+        
+        <!-- AI Agents Grid -->
+        <div class="ai-agents-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h2>AI Agents</h2>
+                </div>
+                <div class="section-actions">
+                    <button class="action-btn primary">
+                        <i class="fas fa-plus"></i> New Agent
+                    </button>
+                </div>
+            </div>
+            
+            <div class="ai-agents-grid">
+                <!-- Data Analyst Agent -->
+                <div class="ai-agent-card" onclick="showAgentDetail('data-analyst')">
+                    <div class="agent-icon" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="agent-name">📊 Data Analyst</div>
+                    <div class="agent-model">Claude Sonnet 4.5</div>
+                    <div class="agent-usage">847 uses</div>
+                </div>
+                
+                <!-- Researcher Agent -->
+                <div class="ai-agent-card" onclick="showAgentDetail('researcher')">
+                    <div class="agent-icon" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-tertiary));">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <div class="agent-name">🔬 Researcher</div>
+                    <div class="agent-model">Claude Opus 4.5</div>
+                    <div class="agent-usage">624 uses</div>
+                </div>
+                
+                <!-- Business Consultant Agent -->
+                <div class="ai-agent-card" onclick="showAgentDetail('business-consultant')">
+                    <div class="agent-icon" style="background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="agent-name">💼 Business Consultant</div>
+                    <div class="agent-model">Claude Sonnet 4.5</div>
+                    <div class="agent-usage">412 uses</div>
+                </div>
+                
+                <!-- Content Writer Agent -->
+                <div class="ai-agent-card" onclick="showAgentDetail('content-writer')">
+                    <div class="agent-icon" style="background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <div class="agent-name">✍️ Content Writer</div>
+                    <div class="agent-model">Claude Sonnet 4.5</div>
+                    <div class="agent-usage">328 uses</div>
+                </div>
+                
+                <!-- Code Assistant Agent -->
+                <div class="ai-agent-card" onclick="showAgentDetail('code-assistant')">
+                    <div class="agent-icon" style="background: linear-gradient(135deg, var(--accent-green), var(--accent-tertiary));">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="agent-name">💻 Code Assistant</div>
+                    <div class="agent-model">Claude Sonnet 4.5</div>
+                    <div class="agent-usage">289 uses</div>
+                </div>
+                
+                <!-- Customer Support Agent -->
+                <div class="ai-agent-card" onclick="showAgentDetail('customer-support')">
+                    <div class="agent-icon" style="background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary));">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="agent-name">🎧 Customer Support</div>
+                    <div class="agent-model">Claude Haiku 4.5</div>
+                    <div class="agent-usage">256 uses</div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Stats Grid - AI Models + Top Model Cost -->
+        <div class="stats-grid">
+            <!-- AI Models Grid -->
+            <div class="ai-models-grid">
+            <!-- Claude Sonnet Card -->
+            <div class="ai-model-card" onclick="showModelDetail('sonnet')">
+                <div class="model-icon sonnet">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="model-name">Claude Sonnet 4.5</div>
+                <div class="model-subtitle">Smart & Efficient</div>
+                <div class="model-click-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Click untuk detail
+                </div>
+            </div>
+            
+            <!-- Claude Opus Card -->
+            <div class="ai-model-card" onclick="showModelDetail('opus')">
+                <div class="model-icon opus">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="model-name">Claude Opus 4.5</div>
+                <div class="model-subtitle">Advanced Reasoning</div>
+                <div class="model-click-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Click untuk detail
+                </div>
+            </div>
+            
+            <!-- Claude Haiku Card -->
+            <div class="ai-model-card" onclick="showModelDetail('haiku')">
+                <div class="model-icon haiku">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="model-name">Claude Haiku 4.5</div>
+                <div class="model-subtitle">Fast & Lightweight</div>
+                <div class="model-click-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Click untuk detail
+                </div>
+            </div>
+            
+            <!-- Claude Sonnet 3.5 Card -->
+            <div class="ai-model-card" onclick="showModelDetail('sonnet-old')">
+                <div class="model-icon sonnet-old">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="model-name">Claude Sonnet 3.5</div>
+                <div class="model-subtitle">Previous Generation</div>
+                <div class="model-click-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Click untuk detail
+                </div>
+            </div>
+            
+            <!-- Claude Opus 3.5 Card -->
+            <div class="ai-model-card" onclick="showModelDetail('opus-old')">
+                <div class="model-icon opus-old">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="model-name">Claude Opus 3.5</div>
+                <div class="model-subtitle">Legacy Premium</div>
+                <div class="model-click-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Click untuk detail
+                </div>
+            </div>
+            
+            <!-- Claude 3 Legacy Card -->
+            <div class="ai-model-card" onclick="showModelDetail('legacy')">
+                <div class="model-icon legacy">
+                    <i class="fas fa-archive"></i>
+                </div>
+                <div class="model-name">Claude 3</div>
+                <div class="model-subtitle">Legacy Model</div>
+                <div class="model-click-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Click untuk detail
+                </div>
+            </div>
+            </div>
+            
+        
+        <!-- Top AI Model Cost -->
+        <div class="top-model-cost-card">
+            <div class="cost-header">
+                <div class="cost-title">
+                    <div class="cost-title-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>Top AI Model Cost</h3>
+                </div>
+                <div class="cost-total">
+                    <div class="cost-total-label">Total Spent</div>
+                    <div class="cost-total-value currency-cost" data-usd="211.55" data-idr="3381800">$211.55</div>
+                </div>
+            </div>
+            
+            <div class="model-cost-item">
+                <div class="model-cost-info">
+                    <div class="model-cost-icon" style="background: linear-gradient(135deg, #6366f1, #ec4899);">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="model-cost-text">
+                        <div class="model-cost-name">Claude Sonnet 4.5</div>
+                        <div class="model-cost-usage">1,847 requests • 3.2M tokens</div>
+                    </div>
+                </div>
+                <div class="model-cost-value">
+                    <div class="model-cost-amount currency-cost" data-usd="65.40" data-idr="1045200">$65.40</div>
+                    <div class="model-cost-percentage">30.9% of total</div>
+                </div>
+            </div>
+            
+            <div class="model-cost-item">
+                <div class="model-cost-info">
+                    <div class="model-cost-icon" style="background: linear-gradient(135deg, #a855f7, #06b6d4);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="model-cost-text">
+                        <div class="model-cost-name">Claude Opus 4.5</div>
+                        <div class="model-cost-usage">1,024 requests • 2.1M tokens</div>
+                    </div>
+                </div>
+                <div class="model-cost-value">
+                    <div class="model-cost-amount currency-cost" data-usd="48.25" data-idr="771200">$48.25</div>
+                    <div class="model-cost-percentage">22.8% of total</div>
+                </div>
+            </div>
+            
+            <div class="model-cost-item">
+                <div class="model-cost-info">
+                    <div class="model-cost-icon" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="model-cost-text">
+                        <div class="model-cost-name">Claude Haiku 4.5</div>
+                        <div class="model-cost-usage">2,156 requests • 4.1M tokens</div>
+                    </div>
+                </div>
+                <div class="model-cost-value">
+                    <div class="model-cost-amount currency-cost" data-usd="32.15" data-idr="513900">$32.15</div>
+                    <div class="model-cost-percentage">15.2% of total</div>
+                </div>
+            </div>
+            
+            <div class="model-cost-item">
+                <div class="model-cost-info">
+                    <div class="model-cost-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="model-cost-text">
+                        <div class="model-cost-name">Claude Sonnet 3.5</div>
+                        <div class="model-cost-usage">834 requests • 1.6M tokens</div>
+                    </div>
+                </div>
+                <div class="model-cost-value">
+                    <div class="model-cost-amount currency-cost" data-usd="28.90" data-idr="462200">$28.90</div>
+                    <div class="model-cost-percentage">13.7% of total</div>
+                </div>
+            </div>
+            
+            <div class="model-cost-item">
+                <div class="model-cost-info">
+                    <div class="model-cost-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="model-cost-text">
+                        <div class="model-cost-name">Claude Opus 3.5</div>
+                        <div class="model-cost-usage">567 requests • 1.2M tokens</div>
+                    </div>
+                </div>
+                <div class="model-cost-value">
+                    <div class="model-cost-amount currency-cost" data-usd="24.50" data-idr="391800">$24.50</div>
+                    <div class="model-cost-percentage">11.6% of total</div>
+                </div>
+            </div>
+            
+            <div class="model-cost-item">
+                <div class="model-cost-info">
+                    <div class="model-cost-icon" style="background: linear-gradient(135deg, #64748b, #475569);">
+                        <i class="fas fa-archive"></i>
+                    </div>
+                    <div class="model-cost-text">
+                        <div class="model-cost-name">Claude 3 Legacy</div>
+                        <div class="model-cost-usage">234 requests • 542K tokens</div>
+                    </div>
+                </div>
+                <div class="model-cost-value">
+                    <div class="model-cost-amount currency-cost" data-usd="12.30" data-idr="196700">$12.30</div>
+                    <div class="model-cost-percentage">5.8% of total</div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- Activity & Top Presets Grid -->
+        <div class="activity-grid">
+            
+            <!-- Recent Activity Card -->
+            <div class="activity-card">
+                <div class="activity-header">
+                    <div class="activity-title">
+                        <div class="activity-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <select class="activity-filter">
+                        <option>Today</option>
+                        <option>This Week</option>
+                        <option>This Month</option>
+                    </select>
+                </div>
+                
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-item-icon" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="activity-item-content">
+                            <div class="activity-item-title">Data Analyst digunakan</div>
+                            <div class="activity-item-desc">Analisis sales report Q4 2024 • 847 tokens</div>
+                        </div>
+                        <div class="activity-item-meta">
+                            <div class="activity-item-time">2 min ago</div>
+                            <div class="activity-item-value currency-activity" data-usd="0.42" data-idr="6720">$0.42</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-item-icon" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-tertiary));">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div class="activity-item-content">
+                            <div class="activity-item-title">Researcher digunakan</div>
+                            <div class="activity-item-desc">Market research untuk produk baru • 1.2K tokens</div>
+                        </div>
+                        <div class="activity-item-meta">
+                            <div class="activity-item-time">15 min ago</div>
+                            <div class="activity-item-value currency-activity" data-usd="1.24" data-idr="19840">$1.24</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-item-icon" style="background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="activity-item-content">
+                            <div class="activity-item-title">Business Consultant digunakan</div>
+                            <div class="activity-item-desc">Strategi ekspansi pasar Asia • 956 tokens</div>
+                        </div>
+                        <div class="activity-item-meta">
+                            <div class="activity-item-time">1 hour ago</div>
+                            <div class="activity-item-value currency-activity" data-usd="0.85" data-idr="13600">$0.85</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-item-icon" style="background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div class="activity-item-content">
+                            <div class="activity-item-title">Content Writer digunakan</div>
+                            <div class="activity-item-desc">Blog post tentang AI trends 2024 • 1.5K tokens</div>
+                        </div>
+                        <div class="activity-item-meta">
+                            <div class="activity-item-time">2 hours ago</div>
+                            <div class="activity-item-value currency-activity" data-usd="1.55" data-idr="24800">$1.55</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-item-icon" style="background: linear-gradient(135deg, var(--accent-green), var(--accent-tertiary));">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="activity-item-content">
+                            <div class="activity-item-title">Code Assistant digunakan</div>
+                            <div class="activity-item-desc">Debugging Python script • 678 tokens</div>
+                        </div>
+                        <div class="activity-item-meta">
+                            <div class="activity-item-time">3 hours ago</div>
+                            <div class="activity-item-value currency-activity" data-usd="0.58" data-idr="9280">$0.58</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Top AI Presets Card -->
+            <div class="top-presets-card">
+                <div class="preset-header">
+                    <div class="preset-title">
+                        <div class="preset-title-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>Top AI Presets</h3>
+                    </div>
+                    <button class="preset-view-all" onclick="showPresetComparison()">
+                        <i class="fas fa-chart-bar"></i> View
+                    </button>
+                </div>
+                
+                <div class="top-preset-item">
+                    <div class="top-preset-rank">1</div>
+                    <div class="top-preset-info">
+                        <div class="top-preset-name">📊 Data Analyst</div>
+                        <div class="top-preset-usage">Claude Sonnet 4.5 • Most Used</div>
+                    </div>
+                    <div class="top-preset-value">
+                        <div class="top-preset-count">847</div>
+                        <div class="top-preset-percentage">↑ 29.8%</div>
+                    </div>
+                </div>
+                
+                <div class="top-preset-item">
+                    <div class="top-preset-rank" style="background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-green));">2</div>
+                    <div class="top-preset-info">
+                        <div class="top-preset-name">🔬 Researcher</div>
+                        <div class="top-preset-usage">Claude Opus 4.5 • High Quality</div>
+                    </div>
+                    <div class="top-preset-value">
+                        <div class="top-preset-count">624</div>
+                        <div class="top-preset-percentage">↑ 21.9%</div>
+                    </div>
+                </div>
+                
+                <div class="top-preset-item">
+                    <div class="top-preset-rank" style="background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));">3</div>
+                    <div class="top-preset-info">
+                        <div class="top-preset-name">💼 Business Consultant</div>
+                        <div class="top-preset-usage">Claude Sonnet 4.5 • Balanced</div>
+                    </div>
+                    <div class="top-preset-value">
+                        <div class="top-preset-count">412</div>
+                        <div class="top-preset-percentage">↑ 14.5%</div>
+                    </div>
+                </div>
+                
+                <div class="top-preset-item">
+                    <div class="top-preset-rank" style="background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));">4</div>
+                    <div class="top-preset-info">
+                        <div class="top-preset-name">✍️ Content Writer</div>
+                        <div class="top-preset-usage">Claude Sonnet 4.5 • Creative</div>
+                    </div>
+                    <div class="top-preset-value">
+                        <div class="top-preset-count">328</div>
+                        <div class="top-preset-percentage">↑ 11.5%</div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    
+    <!-- Model Detail Modal -->
+    <div id="modelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div id="modelModalIcon" class="modal-icon"></div>
+                    <div class="modal-title-text">
+                        <h3 id="modelModalTitle"></h3>
+                        <div id="modelModalSubtitle" class="modal-model"></div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModelModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="model-detail-info">
+                <p id="modelModalDesc"></p>
+            </div>
+            
+            <div class="model-detail-stats">
+                <div class="model-detail-stat">
+                    <div class="model-detail-stat-label">Total Usage</div>
+                    <div id="modelUsage" class="model-detail-stat-value"></div>
+                    <div id="modelUsageTrend" class="model-detail-stat-trend"></div>
+                </div>
+                <div class="model-detail-stat">
+                    <div class="model-detail-stat-label">Tokens Processed</div>
+                    <div id="modelTokens" class="model-detail-stat-value"></div>
+                    <div id="modelTokensTrend" class="model-detail-stat-trend"></div>
+                </div>
+                <div class="model-detail-stat">
+                    <div class="model-detail-stat-label">Total Cost</div>
+                    <div id="modelCost" class="model-detail-stat-value currency-cost" data-usd="0" data-idr="0"></div>
+                    <div id="modelCostTrend" class="model-detail-stat-trend"></div>
+                </div>
+                <div class="model-detail-stat">
+                    <div class="model-detail-stat-label">Success Rate</div>
+                    <div id="modelSuccess" class="model-detail-stat-value"></div>
+                    <div id="modelSuccessTrend" class="model-detail-stat-trend"></div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="closeModelModal()">Close</button>
+                <button class="modal-btn primary">
+                    <i class="fas fa-cog"></i> Configure Model
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Preset Detail Modal -->
+    
+    <!-- AI Agent Detail Modal -->
+    <div id="agentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div id="agentModalIcon" class="modal-icon"></div>
+                    <div class="modal-title-text">
+                        <h3 id="agentModalTitle"></h3>
+                        <div id="agentModalModel" class="modal-model"></div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeAgentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="agentModalDesc" class="modal-desc"></div>
+                
+                <!-- Performance Metrics Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-chart-bar"></i> Performance Metrics
+                    </h4>
+                    <div class="modal-stats">
+                        <div class="modal-stat">
+                            <div class="modal-stat-label">Total Usage</div>
+                            <div id="agentModalUsage" class="modal-stat-value"></div>
+                            <div id="agentModalUsageTrend" class="modal-stat-trend"></div>
+                        </div>
+                        <div class="modal-stat">
+                            <div class="modal-stat-label">Tokens Processed</div>
+                            <div id="agentModalTokens" class="modal-stat-value"></div>
+                            <div id="agentModalTokensTrend" class="modal-stat-trend"></div>
+                        </div>
+                        <div class="modal-stat">
+                            <div class="modal-stat-label">Total Cost</div>
+                            <div id="agentModalCost" class="modal-stat-value"></div>
+                            <div id="agentModalCostTrend" class="modal-stat-trend"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Key Capabilities Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-sparkles"></i> Key Capabilities
+                    </h4>
+                    <div id="agentModalFeatures" class="modal-features">
+                        <!-- Features will be populated dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Performance Details Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-tachometer-alt"></i> Performance Details
+                    </h4>
+                    <div class="modal-performance-grid">
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Avg Response Time</div>
+                            <div id="agentModalResponseTime" class="modal-performance-value"></div>
+                            <div id="agentModalResponseTimeDesc" class="modal-performance-desc"></div>
+                        </div>
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Success Rate</div>
+                            <div id="agentModalSuccessRate" class="modal-performance-value"></div>
+                            <div id="agentModalSuccessRateDesc" class="modal-performance-desc"></div>
+                        </div>
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Avg Tokens/Request</div>
+                            <div id="agentModalAvgTokens" class="modal-performance-value"></div>
+                            <div id="agentModalAvgTokensDesc" class="modal-performance-desc"></div>
+                        </div>
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Cost Efficiency</div>
+                            <div id="agentModalCostEfficiency" class="modal-performance-value"></div>
+                            <div id="agentModalCostEfficiencyDesc" class="modal-performance-desc"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="alert('View detailed analytics for this agent')">
+                    <i class="fas fa-chart-line"></i> Full Analytics
+                </button>
+                <button class="modal-btn secondary" onclick="alert('Configure agent settings')">
+                    <i class="fas fa-cog"></i> Configure
+                </button>
+                <button class="modal-btn secondary" onclick="closeAgentModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Improved Preset Modal -->
+    <div id="presetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <div id="modalIcon" class="modal-icon"></div>
+                    <div class="modal-title-text">
+                        <h3 id="modalTitle"></h3>
+                        <div id="modalModel" class="modal-model"></div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closePresetModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="modalDesc" class="modal-desc"></div>
+                
+                <!-- Performance Metrics Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-chart-bar"></i> Performance Metrics
+                    </h4>
+                    <div class="modal-stats">
+                        <div class="modal-stat">
+                            <div class="modal-stat-label">Total Usage</div>
+                            <div id="modalUsage" class="modal-stat-value"></div>
+                            <div id="modalUsageTrend" class="modal-stat-trend"></div>
+                        </div>
+                        <div class="modal-stat">
+                            <div class="modal-stat-label">Tokens Processed</div>
+                            <div id="modalTokens" class="modal-stat-value"></div>
+                            <div id="modalTokensTrend" class="modal-stat-trend"></div>
+                        </div>
+                        <div class="modal-stat">
+                            <div class="modal-stat-label">Total Cost</div>
+                            <div id="modalCost" class="modal-stat-value"></div>
+                            <div id="modalCostTrend" class="modal-stat-trend"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Key Capabilities Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-sparkles"></i> Key Capabilities
+                    </h4>
+                    <div class="modal-features">
+                        <div class="modal-feature">
+                            <div class="modal-feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="modal-feature-content">
+                                <div class="modal-feature-title">Advanced Analytics</div>
+                                <div class="modal-feature-desc">Powerful data processing and pattern recognition for complex datasets</div>
+                            </div>
+                        </div>
+                        <div class="modal-feature">
+                            <div class="modal-feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="modal-feature-content">
+                                <div class="modal-feature-title">Visual Insights</div>
+                                <div class="modal-feature-desc">Automatically generates charts and visualizations for data interpretation</div>
+                            </div>
+                        </div>
+                        <div class="modal-feature">
+                            <div class="modal-feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="modal-feature-content">
+                                <div class="modal-feature-title">Code Generation</div>
+                                <div class="modal-feature-desc">Creates Python, R, and SQL scripts for data analysis workflows</div>
+                            </div>
+                        </div>
+                        <div class="modal-feature">
+                            <div class="modal-feature-icon">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <div class="modal-feature-content">
+                                <div class="modal-feature-title">Report Generation</div>
+                                <div class="modal-feature-desc">Produces comprehensive reports with executive summaries</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Performance Details Section -->
+                <div class="modal-section">
+                    <h4 class="modal-section-title">
+                        <i class="fas fa-tachometer-alt"></i> Performance Details
+                    </h4>
+                    <div class="modal-performance-grid">
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Avg Response Time</div>
+                            <div class="modal-performance-value">1.32s</div>
+                            <div class="modal-performance-desc">18% faster than average</div>
+                        </div>
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Success Rate</div>
+                            <div class="modal-performance-value">99.5%</div>
+                            <div class="modal-performance-desc">Industry-leading accuracy</div>
+                        </div>
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Avg Tokens/Request</div>
+                            <div class="modal-performance-value">2,124</div>
+                            <div class="modal-performance-desc">Optimized token usage</div>
+                        </div>
+                        <div class="modal-performance-item">
+                            <div class="modal-performance-label">Cost Efficiency</div>
+                            <div class="modal-performance-value">$0.045</div>
+                            <div class="modal-performance-desc">Per request average</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="alert('View detailed analytics for this preset')">
+                    <i class="fas fa-chart-bar"></i> Full Analytics
+                </button>
+                <button class="modal-btn secondary" onclick="closePresetModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+                <button class="modal-btn primary" onclick="alert('Preset activated!')">
+                    <i class="fas fa-play"></i> Use This Preset
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentCurrency = 'USD';
+        
+        
+        // AI Agent data
+        const agentData = {
+            'data-analyst': {
+                name: '📊 Data Analyst',
+                model: 'Claude Sonnet 4.5',
+                icon: '<i class="fas fa-chart-bar"></i>',
+                iconBg: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                desc: 'Specialized in analyzing complex datasets, generating insights, and creating comprehensive data visualizations. Perfect for business intelligence, statistical analysis, and data-driven decision making.',
+                usage: '847',
+                usageTrend: '+18.2% from last month',
+                tokens: '1.8M',
+                tokensTrend: '+15.8% from last month',
+                costUSD: 38.15,
+                costIDR: 610000,
+                costTrend: '-5.2% from last month',
+                responseTime: '1.32s',
+                responseTimeDesc: '18% faster than average',
+                successRate: '99.5%',
+                successRateDesc: 'Industry-leading accuracy',
+                avgTokens: '2,124',
+                avgTokensDesc: 'Optimized token usage',
+                costEfficiency: '$0.045',
+                costEfficiencyDesc: 'Per request average',
+                features: [
+                    { icon: 'brain', title: 'Advanced Analytics', desc: 'Powerful data processing and pattern recognition for complex datasets' },
+                    { icon: 'chart-line', title: 'Visual Insights', desc: 'Automatically generates charts and visualizations for data interpretation' },
+                    { icon: 'code', title: 'Code Generation', desc: 'Creates Python, R, and SQL scripts for data analysis workflows' },
+                    { icon: 'file-export', title: 'Report Generation', desc: 'Produces comprehensive reports with executive summaries and recommendations' }
+                ]
+            },
+            'researcher': {
+                name: '🔬 Researcher',
+                model: 'Claude Opus 4.5',
+                icon: '<i class="fas fa-microscope"></i>',
+                iconBg: 'linear-gradient(135deg, var(--accent-purple), var(--accent-tertiary))',
+                desc: 'Advanced research assistant for in-depth analysis, literature reviews, and academic writing. Excels at synthesizing information from multiple sources and providing evidence-based insights.',
+                usage: '624',
+                usageTrend: '+22.5% from last month',
+                tokens: '1.4M',
+                tokensTrend: '+19.3% from last month',
+                costUSD: 28.10,
+                costIDR: 449000,
+                costTrend: '-3.1% from last month',
+                responseTime: '1.45s',
+                responseTimeDesc: '12% faster than baseline',
+                successRate: '99.7%',
+                successRateDesc: 'Highest accuracy in tests',
+                avgTokens: '2,244',
+                avgTokensDesc: 'Comprehensive responses',
+                costEfficiency: '$0.045',
+                costEfficiencyDesc: 'Per request average',
+                features: [
+                    { icon: 'book', title: 'Literature Review', desc: 'Comprehensive analysis of academic papers and research materials' },
+                    { icon: 'search', title: 'Deep Research', desc: 'Multi-source information gathering with fact verification' },
+                    { icon: 'graduation-cap', title: 'Academic Writing', desc: 'Professional writing for papers, theses, and publications' },
+                    { icon: 'lightbulb', title: 'Insight Generation', desc: 'Synthesizes complex information into actionable insights' }
+                ]
+            },
+            'business-consultant': {
+                name: '💼 Business Consultant',
+                model: 'Claude Sonnet 4.5',
+                icon: '<i class="fas fa-briefcase"></i>',
+                iconBg: 'linear-gradient(135deg, var(--accent-orange), var(--accent-yellow))',
+                desc: 'Strategic business advisor for executive decision-making, market analysis, and business planning. Provides actionable recommendations based on industry best practices.',
+                usage: '412',
+                usageTrend: '+12.8% from last month',
+                tokens: '892K',
+                tokensTrend: '+10.5% from last month',
+                costUSD: 18.55,
+                costIDR: 296000,
+                costTrend: '-8.4% from last month',
+                responseTime: '1.28s',
+                responseTimeDesc: '22% faster than average',
+                successRate: '99.0%',
+                successRateDesc: 'Consistent performance',
+                avgTokens: '2,165',
+                avgTokensDesc: 'Balanced responses',
+                costEfficiency: '$0.045',
+                costEfficiencyDesc: 'Per request average',
+                features: [
+                    { icon: 'chart-pie', title: 'Market Analysis', desc: 'Comprehensive market research and competitive analysis' },
+                    { icon: 'strategy', title: 'Strategic Planning', desc: 'Business strategy development and execution planning' },
+                    { icon: 'money-bill-trend-up', title: 'Financial Modeling', desc: 'Revenue forecasting and financial scenario planning' },
+                    { icon: 'handshake', title: 'Stakeholder Management', desc: 'Communication strategies and presentation materials' }
+                ]
+            },
+            'content-writer': {
+                name: '✍️ Content Writer',
+                model: 'Claude Sonnet 4.5',
+                icon: '<i class="fas fa-pen-fancy"></i>',
+                iconBg: 'linear-gradient(135deg, var(--accent-secondary), var(--accent-primary))',
+                desc: 'Creative content generation for marketing, blogs, social media, and copywriting. Adapts tone and style to match brand voice and audience preferences.',
+                usage: '328',
+                usageTrend: '+16.4% from last month',
+                tokens: '745K',
+                tokensTrend: '+14.2% from last month',
+                costUSD: 15.20,
+                costIDR: 243000,
+                costTrend: '-6.8% from last month',
+                responseTime: '1.18s',
+                responseTimeDesc: '28% faster than average',
+                successRate: '98.8%',
+                successRateDesc: 'High-quality output',
+                avgTokens: '2,271',
+                avgTokensDesc: 'Creative responses',
+                costEfficiency: '$0.046',
+                costEfficiencyDesc: 'Per request average',
+                features: [
+                    { icon: 'blog', title: 'Blog Writing', desc: 'SEO-optimized blog posts and articles for various niches' },
+                    { icon: 'ad', title: 'Copywriting', desc: 'Persuasive copy for ads, landing pages, and marketing materials' },
+                    { icon: 'share-nodes', title: 'Social Media', desc: 'Engaging content for all major social platforms' },
+                    { icon: 'newspaper', title: 'Content Strategy', desc: 'Editorial calendars and content planning' }
+                ]
+            },
+            'code-assistant': {
+                name: '💻 Code Assistant',
+                model: 'Claude Sonnet 4.5',
+                icon: '<i class="fas fa-code"></i>',
+                iconBg: 'linear-gradient(135deg, var(--accent-green), var(--accent-tertiary))',
+                desc: 'Expert programming assistant for code generation, debugging, and optimization across multiple languages. Provides clean, efficient, and well-documented code.',
+                usage: '289',
+                usageTrend: '+24.6% from last month',
+                tokens: '654K',
+                tokensTrend: '+20.8% from last month',
+                costUSD: 13.45,
+                costIDR: 215000,
+                costTrend: '-4.2% from last month',
+                responseTime: '1.15s',
+                responseTimeDesc: '30% faster than average',
+                successRate: '99.2%',
+                successRateDesc: 'Error-free code generation',
+                avgTokens: '2,263',
+                avgTokensDesc: 'Detailed explanations',
+                costEfficiency: '$0.047',
+                costEfficiencyDesc: 'Per request average',
+                features: [
+                    { icon: 'laptop-code', title: 'Code Generation', desc: 'Creates production-ready code in multiple programming languages' },
+                    { icon: 'bug', title: 'Debugging', desc: 'Identifies and fixes bugs with detailed explanations' },
+                    { icon: 'code-branch', title: 'Code Review', desc: 'Reviews code for best practices and optimization opportunities' },
+                    { icon: 'book-open', title: 'Documentation', desc: 'Generates comprehensive code documentation and comments' }
+                ]
+            },
+            'customer-support': {
+                name: '🎧 Customer Support',
+                model: 'Claude Haiku 4.5',
+                icon: '<i class="fas fa-headset"></i>',
+                iconBg: 'linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary))',
+                desc: 'Fast and efficient customer support assistant for handling inquiries, troubleshooting, and providing product information. Optimized for quick response times.',
+                usage: '256',
+                usageTrend: '+28.4% from last month',
+                tokens: '512K',
+                tokensTrend: '+24.7% from last month',
+                costUSD: 8.90,
+                costIDR: 142000,
+                costTrend: '-12.3% from last month',
+                responseTime: '0.85s',
+                responseTimeDesc: '45% faster than average',
+                successRate: '98.5%',
+                successRateDesc: 'Quick problem resolution',
+                avgTokens: '2,000',
+                avgTokensDesc: 'Concise responses',
+                costEfficiency: '$0.035',
+                costEfficiencyDesc: 'Most cost-efficient',
+                features: [
+                    { icon: 'comments', title: 'Live Chat Support', desc: 'Real-time customer inquiry handling with empathy' },
+                    { icon: 'tools', title: 'Troubleshooting', desc: 'Step-by-step problem resolution guidance' },
+                    { icon: 'info-circle', title: 'Product Knowledge', desc: 'Comprehensive product information and FAQs' },
+                    { icon: 'smile', title: 'Sentiment Analysis', desc: 'Detects customer mood and adjusts tone accordingly' }
+                ]
+            }
+        };
+        
+        // Show agent detail modal
+        function showAgentDetail(agentType) {
+            const agent = agentData[agentType];
+            const modal = document.getElementById('agentModal');
+            
+            // Set basic info
+            document.getElementById('agentModalIcon').innerHTML = agent.icon;
+            document.getElementById('agentModalIcon').style.background = agent.iconBg;
+            document.getElementById('agentModalTitle').textContent = agent.name;
+            document.getElementById('agentModalModel').innerHTML = `<i class="fas fa-robot"></i> ${agent.model}`;
+            document.getElementById('agentModalDesc').textContent = agent.desc;
+            
+            // Set performance metrics
+            document.getElementById('agentModalUsage').textContent = agent.usage;
+            document.getElementById('agentModalUsageTrend').textContent = agent.usageTrend;
+            document.getElementById('agentModalTokens').textContent = agent.tokens;
+            document.getElementById('agentModalTokensTrend').textContent = agent.tokensTrend;
+            
+            // Set cost based on currency
+            const cost = currentCurrency === 'USD' ? `$${agent.costUSD.toFixed(2)}` : `Rp ${formatRupiah(agent.costIDR)}`;
+            document.getElementById('agentModalCost').textContent = cost;
+            document.getElementById('agentModalCostTrend').textContent = agent.costTrend;
+            
+            // Set performance details
+            document.getElementById('agentModalResponseTime').textContent = agent.responseTime;
+            document.getElementById('agentModalResponseTimeDesc').textContent = agent.responseTimeDesc;
+            document.getElementById('agentModalSuccessRate').textContent = agent.successRate;
+            document.getElementById('agentModalSuccessRateDesc').textContent = agent.successRateDesc;
+            document.getElementById('agentModalAvgTokens').textContent = agent.avgTokens;
+            document.getElementById('agentModalAvgTokensDesc').textContent = agent.avgTokensDesc;
+            document.getElementById('agentModalCostEfficiency').textContent = agent.costEfficiency;
+            document.getElementById('agentModalCostEfficiencyDesc').textContent = agent.costEfficiencyDesc;
+            
+            // Set features
+            const featuresContainer = document.getElementById('agentModalFeatures');
+            featuresContainer.innerHTML = agent.features.map(feature => `
+                <div class="modal-feature">
+                    <div class="modal-feature-icon">
+                        <i class="fas fa-${feature.icon}"></i>
+                    </div>
+                    <div class="modal-feature-content">
+                        <div class="modal-feature-title">${feature.title}</div>
+                        <div class="modal-feature-desc">${feature.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close agent modal
+        function closeAgentModal() {
+            const modal = document.getElementById('agentModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Model data
+        const modelData = {
+            sonnet: {
+                name: 'Claude Sonnet 4.5',
+                subtitle: 'Smart & Efficient Model',
+                icon: '<i class="fas fa-robot"></i>',
+                iconBg: 'linear-gradient(135deg, #6366f1, #ec4899)',
+                desc: 'Claude Sonnet 4.5 adalah model yang dirancang untuk keseimbangan sempurna antara kecepatan dan kualitas. Ideal untuk sebagian besar tugas bisnis, analisis data, dan konten kreatif dengan performa tinggi dan biaya efisien.',
+                usage: '1,847',
+                usageTrend: '↑ 18.2%',
+                tokens: '3.2M',
+                tokensTrend: '↑ 15.8%',
+                costUSD: 65.40,
+                costIDR: 1045200,
+                costTrend: '↓ 5.2%',
+                success: '99.3%',
+                successTrend: '↑ 0.8%'
+            },
+            opus: {
+                name: 'Claude Opus 4.5',
+                subtitle: 'Advanced Reasoning Model',
+                icon: '<i class="fas fa-brain"></i>',
+                iconBg: 'linear-gradient(135deg, #a855f7, #06b6d4)',
+                desc: 'Claude Opus 4.5 adalah model premium dengan kemampuan reasoning tingkat lanjut. Sempurna untuk tugas kompleks yang membutuhkan pemahaman mendalam, analisis multi-step, dan output berkualitas tertinggi.',
+                usage: '1,024',
+                usageTrend: '↑ 22.5%',
+                tokens: '2.1M',
+                tokensTrend: '↑ 19.3%',
+                costUSD: 48.25,
+                costIDR: 771200,
+                costTrend: '↓ 3.1%',
+                success: '99.7%',
+                successTrend: '↑ 1.2%'
+            },
+            haiku: {
+                name: 'Claude Haiku 4.5',
+                subtitle: 'Fast & Lightweight Model',
+                icon: '<i class="fas fa-bolt"></i>',
+                iconBg: 'linear-gradient(135deg, #10b981, #06b6d4)',
+                desc: 'Claude Haiku 4.5 adalah model tercepat dengan response time minimal. Dirancang untuk tugas-tugas yang membutuhkan kecepatan tinggi dan efisiensi biaya maksimal, ideal untuk real-time applications dan high-volume processing.',
+                usage: '2,156',
+                usageTrend: '↑ 28.4%',
+                tokens: '4.1M',
+                tokensTrend: '↑ 24.7%',
+                costUSD: 32.15,
+                costIDR: 513900,
+                costTrend: '↓ 8.9%',
+                success: '98.9%',
+                successTrend: '↑ 1.5%'
+            },
+            'sonnet-old': {
+                name: 'Claude Sonnet 3.5',
+                subtitle: 'Previous Generation Model',
+                icon: '<i class="fas fa-microchip"></i>',
+                iconBg: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
+                desc: 'Claude Sonnet 3.5 adalah generasi sebelumnya yang masih menawarkan performa solid untuk berbagai tugas. Model ini tetap populer karena stabilitasnya yang terbukti dan kompatibilitas dengan sistem legacy.',
+                usage: '834',
+                usageTrend: '↓ 12.3%',
+                tokens: '1.6M',
+                tokensTrend: '↓ 8.5%',
+                costUSD: 28.90,
+                costIDR: 462200,
+                costTrend: '↓ 15.2%',
+                success: '98.5%',
+                successTrend: '→ 0.1%'
+            },
+            'opus-old': {
+                name: 'Claude Opus 3.5',
+                subtitle: 'Legacy Premium Model',
+                icon: '<i class="fas fa-fire"></i>',
+                iconBg: 'linear-gradient(135deg, #f59e0b, #ef4444)',
+                desc: 'Claude Opus 3.5 adalah versi premium generasi sebelumnya. Meskipun sudah ada versi 4.5, model ini masih digunakan untuk compatibility dengan project-project yang membutuhkan consistency dengan output sebelumnya.',
+                usage: '567',
+                usageTrend: '↓ 18.7%',
+                tokens: '1.2M',
+                tokensTrend: '↓ 14.2%',
+                costUSD: 24.50,
+                costIDR: 391800,
+                costTrend: '↓ 22.1%',
+                success: '98.8%',
+                successTrend: '↓ 0.3%'
+            },
+            legacy: {
+                name: 'Claude 3',
+                subtitle: 'Legacy Model',
+                icon: '<i class="fas fa-archive"></i>',
+                iconBg: 'linear-gradient(135deg, #64748b, #475569)',
+                desc: 'Claude 3 adalah model legacy yang masih tersedia untuk backward compatibility. Model ini direkomendasikan hanya untuk maintaining existing integrations dan akan di-deprecate dalam waktu dekat.',
+                usage: '234',
+                usageTrend: '↓ 45.6%',
+                tokens: '542K',
+                tokensTrend: '↓ 38.9%',
+                costUSD: 12.30,
+                costIDR: 196700,
+                costTrend: '↓ 52.3%',
+                success: '96.2%',
+                successTrend: '↓ 1.8%'
+            }
+        };
+        
+        // Show model detail modal
+        function showModelDetail(modelType) {
+            const model = modelData[modelType];
+            const modal = document.getElementById('modelModal');
+            const modalIcon = document.getElementById('modelModalIcon');
+            const modalTitle = document.getElementById('modelModalTitle');
+            const modalSubtitle = document.getElementById('modelModalSubtitle');
+            const modalDesc = document.getElementById('modelModalDesc');
+            const modelUsage = document.getElementById('modelUsage');
+            const modelUsageTrend = document.getElementById('modelUsageTrend');
+            const modelTokens = document.getElementById('modelTokens');
+            const modelTokensTrend = document.getElementById('modelTokensTrend');
+            const modelCost = document.getElementById('modelCost');
+            const modelCostTrend = document.getElementById('modelCostTrend');
+            const modelSuccess = document.getElementById('modelSuccess');
+            const modelSuccessTrend = document.getElementById('modelSuccessTrend');
+            
+            modalIcon.innerHTML = model.icon;
+            modalIcon.style.background = model.iconBg;
+            modalTitle.textContent = model.name;
+            modalSubtitle.innerHTML = `<i class="fas fa-microchip"></i> ${model.subtitle}`;
+            modalDesc.textContent = model.desc;
+            modelUsage.textContent = model.usage;
+            modelUsageTrend.textContent = model.usageTrend;
+            modelTokens.textContent = model.tokens;
+            modelTokensTrend.textContent = model.tokensTrend;
+            modelCost.dataset.usd = model.costUSD;
+            modelCost.dataset.idr = model.costIDR;
+            
+            if (currentCurrency === 'USD') {
+                modelCost.textContent = `$${model.costUSD.toFixed(2)}`;
+            } else {
+                modelCost.textContent = `Rp ${formatRupiah(model.costIDR)}`;
+            }
+            
+            modelCostTrend.textContent = model.costTrend;
+            modelSuccess.textContent = model.success;
+            modelSuccessTrend.textContent = model.successTrend;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close model detail modal
+        function closeModelModal() {
+            const modal = document.getElementById('modelModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Change currency
+        function changeCurrency(currency) {
+            currentCurrency = currency;
+            
+            // Update button states
+            document.querySelectorAll('.currency-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(currency)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update all currency values
+            document.querySelectorAll('.currency-value').forEach(el => {
+                const usd = parseFloat(el.dataset.usd);
+                const idr = parseFloat(el.dataset.idr);
+                
+                if (currency === 'USD') {
+                    el.textContent = `$${usd.toFixed(2)}`;
+                } else {
+                    el.textContent = `Rp ${formatRupiah(idr)}`;
+                }
+            });
+            
+            document.querySelectorAll('.currency-saving').forEach(el => {
+                const usd = parseFloat(el.dataset.usd);
+                const idr = parseFloat(el.dataset.idr);
+                
+                if (currency === 'USD') {
+                    el.textContent = `$${usd.toFixed(2)}`;
+                } else {
+                    el.textContent = `Rp ${formatRupiah(idr)}`;
+                }
+            });
+            
+            document.querySelectorAll('.currency-cost').forEach(el => {
+                const usd = parseFloat(el.dataset.usd);
+                const idr = parseFloat(el.dataset.idr);
+                
+                if (currency === 'USD') {
+                    el.textContent = `$${usd.toFixed(2)}`;
+                } else {
+                    el.textContent = `Rp ${formatRupiah(idr)}`;
+                }
+            });
+            
+            document.querySelectorAll('.currency-preset').forEach(el => {
+                const usd = parseFloat(el.dataset.usd);
+                const idr = parseFloat(el.dataset.idr);
+                
+                if (currency === 'USD') {
+                    el.textContent = `$${usd.toFixed(2)}`;
+                } else {
+                    el.textContent = formatRupiahShort(idr);
+                }
+            });
+            
+            document.querySelectorAll('.currency-activity').forEach(el => {
+                const usd = parseFloat(el.dataset.usd);
+                const idr = parseFloat(el.dataset.idr);
+                
+                if (currency === 'USD') {
+                    el.textContent = `$${usd.toFixed(2)}`;
+                } else {
+                    el.textContent = `Rp ${formatRupiah(idr)}`;
+                }
+            });
+            
+            // Update inline currency in alerts
+            document.querySelectorAll('.currency-inline').forEach(el => {
+                const usd = parseFloat(el.dataset.usd);
+                const idr = parseFloat(el.dataset.idr);
+                
+                if (currency === 'USD') {
+                    el.textContent = `($${usd.toFixed(2)})`;
+                } else {
+                    el.textContent = `(Rp ${formatRupiah(idr)})`;
+                }
+            });
+        }
+        
+        // Format rupiah
+        function formatRupiah(amount) {
+            return amount.toLocaleString('id-ID');
+        }
+        
+        // Format rupiah short (e.g., 610K, 1.2M)
+        function formatRupiahShort(amount) {
+            if (amount >= 1000000) {
+                return `Rp ${(amount / 1000000).toFixed(1)}M`;
+            } else if (amount >= 1000) {
+                return `Rp ${Math.round(amount / 1000)}K`;
+            }
+            return `Rp ${amount}`;
+        }
+        
+        // User menu
+        function showUserMenu() {
+            const logout = confirm('Logout dari Super AI Agent?');
+            if (logout) {
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Select preset
+        function selectPreset(element) {
+            document.querySelectorAll('.preset-item').forEach(item => {
+                item.classList.remove('selected');
+                const badge = item.querySelector('.preset-badge');
+                if (badge) badge.remove();
+            });
+            
+            element.classList.add('selected');
+            
+            const badge = document.createElement('div');
+            badge.className = 'preset-badge';
+            badge.textContent = 'Active';
+            element.appendChild(badge);
+            
+            const presetName = element.querySelector('.preset-name').textContent;
+            const presetModel = element.querySelector('.preset-model').textContent.trim();
+            const presetDesc = element.querySelector('.preset-desc').textContent;
+            const presetIcon = element.querySelector('.preset-icon').innerHTML;
+            const presetIconBg = window.getComputedStyle(element.querySelector('.preset-icon')).background;
+            const stats = element.querySelectorAll('.preset-stat-value');
+            const usage = stats[0].textContent;
+            const tokens = stats[1].textContent;
+            const cost = stats[2].textContent;
+            
+            console.log('Preset berubah ke:', presetName);
+            
+            // Show modal with preset info
+            showPresetModal(presetName, presetModel, presetDesc, presetIcon, presetIconBg, usage, tokens, cost);
+        }
+        
+        // Show preset modal
+        function showPresetModal(name, model, desc, icon, iconBg, usage, tokens, cost) {
+            const modal = document.getElementById('presetModal');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalModel = document.getElementById('modalModel');
+            const modalDesc = document.getElementById('modalDesc');
+            const modalUsage = document.getElementById('modalUsage');
+            const modalTokens = document.getElementById('modalTokens');
+            const modalCost = document.getElementById('modalCost');
+            const modalUsageTrend = document.getElementById('modalUsageTrend');
+            const modalTokensTrend = document.getElementById('modalTokensTrend');
+            const modalCostTrend = document.getElementById('modalCostTrend');
+            
+            modalIcon.innerHTML = icon;
+            modalIcon.style.background = iconBg;
+            modalTitle.textContent = name;
+            modalModel.innerHTML = `<i class="fas fa-robot"></i> ${model}`;
+            modalDesc.textContent = desc;
+            modalUsage.textContent = usage;
+            modalTokens.textContent = tokens;
+            modalCost.textContent = cost;
+            modalUsageTrend.textContent = '+15.2% dari bulan lalu';
+            modalTokensTrend.textContent = '+12.8% dari bulan lalu';
+            modalCostTrend.textContent = '-8.4% dari bulan lalu';
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close preset modal
+        function closePresetModal() {
+            const modal = document.getElementById('presetModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const presetModal = document.getElementById('presetModal');
+            const modelModal = document.getElementById('modelModal');
+            const agentModal = document.getElementById('agentModal');
+            
+            if (event.target === presetModal) {
+                closePresetModal();
+            }
+            if (event.target === modelModal) {
+                closeModelModal();
+            }
+            if (event.target === agentModal) {
+                closeAgentModal();
+            }
+        });
+        
+        // Show preset comparison
+        function showPresetComparison() {
+            alert(`📊 Perbandingan Preset Teratas\n\n` +
+                  `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                  `1. 📊 Data Analyst (Claude Sonnet 4.5)\n` +
+                  `   • Penggunaan: 847x (29.8%)\n` +
+                  `   • Token: 1.8M\n` +
+                  `   • Biaya: ${currentCurrency === 'USD' ? '$38.15' : 'Rp 610K'}\n` +
+                  `   • Avg Response: 1.32s\n` +
+                  `   • Success: 99.5%\n\n` +
+                  `2. 🔬 Researcher (Claude Opus 4.5)\n` +
+                  `   • Penggunaan: 624x (21.9%)\n` +
+                  `   • Token: 1.4M\n` +
+                  `   • Biaya: ${currentCurrency === 'USD' ? '$28.10' : 'Rp 449K'}\n` +
+                  `   • Avg Response: 1.45s\n` +
+                  `   • Success: 99.2%\n\n` +
+                  `3. 💼 Business Consultant (Claude Sonnet 4.5)\n` +
+                  `   • Penggunaan: 412x (14.5%)\n` +
+                  `   • Token: 892K\n` +
+                  `   • Biaya: ${currentCurrency === 'USD' ? '$18.55' : 'Rp 296K'}\n` +
+                  `   • Avg Response: 1.28s\n` +
+                  `   • Success: 99.0%\n\n` +
+                  `💡 Rekomendasi:\n` +
+                  `Data Analyst adalah preset paling efisien dengan\n` +
+                  `success rate tertinggi dan response tercepat!`);
+        }
+        
+        // Export data
+        function exportData() {
+            alert('📊 Export Laporan Preset\n\n' +
+                  '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+                  'Laporan yang akan diekspor:\n\n' +
+                  '✅ Statistik penggunaan per preset\n' +
+                  '✅ Breakdown biaya per preset\n' +
+                  '✅ Trend penggunaan mingguan/bulanan\n' +
+                  '✅ Perbandingan performa preset\n' +
+                  '✅ Success rate dan response time\n' +
+                  '✅ Token usage analysis\n' +
+                  '✅ Rekomendasi optimasi\n\n' +
+                  'Format Export:\n' +
+                  '📄 PDF - Laporan visual lengkap\n' +
+                  '📊 Excel - Data untuk analisis\n' +
+                  '📋 JSON - Raw data untuk API\n' +
+                  '📈 CSV - Data tabular\n\n' +
+                  'Fitur ini akan segera tersedia!');
+        }
+
+        
+        // Set default currency to IDR on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Find and activate IDR button
+            const currencyButtons = document.querySelectorAll('.currency-btn');
+            currencyButtons.forEach(btn => {
+                if (btn.textContent.includes('IDR')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update all currency values to IDR
+            document.querySelectorAll('.currency-value').forEach(el => {
+                const idr = parseFloat(el.dataset.idr);
+                el.textContent = `Rp ${formatRupiah(idr)}`;
+            });
+            
+            document.querySelectorAll('.currency-saving').forEach(el => {
+                const idr = parseFloat(el.dataset.idr);
+                el.textContent = `Rp ${formatRupiah(idr)}`;
+            });
+            
+            document.querySelectorAll('.currency-cost').forEach(el => {
+                const idr = parseFloat(el.dataset.idr);
+                el.textContent = `Rp ${formatRupiah(idr)}`;
+            });
+            
+            document.querySelectorAll('.currency-preset').forEach(el => {
+                const idr = parseFloat(el.dataset.idr);
+                el.textContent = formatRupiahShort(idr);
+            });
+            
+            document.querySelectorAll('.currency-activity').forEach(el => {
+                const idr = parseFloat(el.dataset.idr);
+                el.textContent = `Rp ${formatRupiah(idr)}`;
+            });
+        });
+    </script>
+</body>
+</html>
